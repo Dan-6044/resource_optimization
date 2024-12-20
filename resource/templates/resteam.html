@@ -1,0 +1,462 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource and Teams</title>
+    <style>
+        /* General body and container styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Centered heading */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Project section styling */
+        .project-section {
+            margin-bottom: 40px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 20px;
+        }
+        .project-section h2 {
+            color: #007bff;
+            font-size: 24px;
+        }
+        .project-section p {
+            font-size: 16px;
+        }
+        .actions a {
+            margin-right: 10px;
+        }
+
+        /* Task table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        tr:hover td {
+            background-color: #f1f1f1;
+        }
+
+    /* Modal Styles */
+    .modal {
+        display: none; /* Hide the modal by default */
+        position: fixed; /* Fixed position */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 1000; /* Ensure the modal appears above other content */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-content h2 {
+        margin-bottom: 15px;
+    }
+
+    .modal-content label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .modal-content input {
+        width: 99%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .modal-content button {
+        padding: 10px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .modal-content button:hover {
+        background-color: #45a049;
+    }
+
+    .modal-content .btn-delete {
+        background-color: #f44336;
+    }
+
+    .modal-content .btn-delete:hover {
+        background-color: #e53935;
+    }
+
+        /* Button styles */
+        .btn {
+            padding: 8px 15px;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .btn-edit {
+            background-color: #007bff;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            text-decoration: none;
+        }
+        .btn-link {
+        display: inline-block;
+        text-decoration: none;
+        color: #007bff; /* Customize as per your color scheme */
+        font-size: 16px;
+        margin-bottom: 20px;
+       }
+        .circular-img {
+            width: 30px; /* Adjust the size of the image */
+            height: 30px; /* Ensure it's a square to maintain the circular shape */
+            border-radius: 50%; /* Makes the image circular */
+            object-fit: cover; /* Ensures the image covers the container without stretching */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Go Back link -->
+                <a href="javascript:history.back()" class="btn btn-link">Go Back</a>
+            </div>
+        </div>
+        <h1>Resources and Teams</h1>
+
+        {% for project in projects %}
+        <div class="project-section">
+            <h2>{{ project.name }}</h2>
+            <p><strong>Duration:</strong> {{ project.duration }} days</p>
+            <p><strong>Number of Tasks:</strong> {{ project.num_tasks }}</p>
+            <p><strong>Cost:</strong> ${{ project.cost }}</p>
+
+
+
+            <h3>Tasks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Resource Name</th>
+                        <th>Provider</th>
+                        <th>Capacity</th>
+                        <th>Location</th>
+                        <th>Cost</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for resource in project.resources.all %}
+                    <tr>
+                        <td>{{ resource.resource_name }}</td>
+                        <td>{{ resource.provider }}</td>
+                        <td>{{ resource.capacity }}</td>
+                        <td>{{ resource.location }}</td>
+                        <td>{{ resource.cost }}</td>
+                        <td>
+                            <button class="btn btn-edit edit-resource-btn" 
+                                data-resource-id="{{ resource.id }}" 
+                                data-resource-name="{{ resource.resource_name }}" 
+                                data-resource-provider="{{ resource.provider }}" 
+                                data-resource-capacity="{{ resource.capacity }}" 
+                                data-resource-location="{{ resource.location }}" 
+                                data-resource-cost="{{ resource.cost }}">
+                                Edit 
+                            </button>
+                            <a href="{% url 'delete_resource' resource_id=resource.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this task?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No Resource available for this project.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Member Name</th>
+                        <th>Role</th>
+                        <th>Additional Qualification</th>
+                        <th>Email</th>
+                        <th>Profile</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in project.team_members.all %}
+                    <tr>
+                        <td>{{ member.member_name }}</td>
+                        <td>{{ member.role }}</td>
+                        <td>{{ member.additional_qualification }}</td>
+                        <td>{{ member.email }}</td>
+                        <td class="avatar avatar-xs rounded-circle">                           
+                         <img src="{{ member.profile_picture.url }}" alt="{{ member.member_name }}" class="circular-img">                     
+                        </td>
+                        <td>
+                            <button class="btn btn-edit edit-team-member-btn" 
+                            data-member-id="{{ member.id }}" 
+                            data-member-name="{{ member.member_name }}" 
+                            data-member-role="{{ member.role }}" 
+                            data-member-qualification="{{ member.additional_qualification }}" 
+                            data-member-email="{{ member.email }}">
+                            Edit
+                        </button>
+                        <a href="{% url 'delete_team_member' member_id=member.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this task?')">Delete</a>
+
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No Team available for this project.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        {% empty %}
+        <p>No Resource or Team found.</p>
+        {% endfor %}
+
+                <!-- Resource Edit Modal -->
+<div id="editResourceModal" class="modal">
+    <div class="modal-content">
+        <h2>Edit Resource</h2>
+        <form id="editResourceForm">
+            <input type="hidden" id="resourceId">
+            
+            <label for="resourceName">Resource Name:</label>
+            <input type="text" id="resourceName" name="resourceName" required>
+            
+            <label for="provider">Provider:</label>
+            <input type="text" id="provider" name="provider" required>
+            
+            <label for="capacity">Capacity:</label>
+            <input type="number" id="capacity" name="capacity" required>
+            
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+            
+            <label for="resourceCost">Cost:</label>
+            <input type="text" id="resourceCost" name="resourceCost" required>
+            
+            <button type="submit" class="btn btn-edit">Save Changes</button>
+            <button type="button" id="closeResourceModal" class="btn btn-delete">Close</button>
+        </form>
+    </div>
+</div>
+
+<!-- Team Member Edit Modal -->
+<div id="editTeamMemberModal" class="modal">
+    <div class="modal-content">
+        <h2>Edit Team Member</h2>
+        <form id="editTeamMemberForm">
+            <input type="hidden" id="memberId">
+            
+            <label for="memberName">Member Name:</label>
+            <input type="text" id="memberName" name="memberName" required>
+            
+            <label for="role">Role:</label>
+            <input type="text" id="role" name="role" required>
+            
+            <label for="qualification">Additional Qualification:</label>
+            <input type="text" id="qualification" name="qualification">
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <button type="submit" class="btn btn-edit">Save Changes</button>
+            <button type="button" id="closeTeamMemberModal" class="btn btn-delete">Close</button>
+        </form>
+    </div>
+</div>
+
+
+</div>
+
+<script>
+    // Populate Resource Edit Modal
+    const editResourceButtons = document.querySelectorAll('.edit-resource-btn');
+    editResourceButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const resourceId = this.dataset.resourceId;
+            const resourceName = this.dataset.resourceName;
+            const provider = this.dataset.resourceProvider;
+            const capacity = this.dataset.resourceCapacity;
+            const location = this.dataset.resourceLocation;
+            const cost = this.dataset.resourceCost;
+
+            document.getElementById('resourceId').value = resourceId;
+            document.getElementById('resourceName').value = resourceName;
+            document.getElementById('provider').value = provider;
+            document.getElementById('capacity').value = capacity;
+            document.getElementById('location').value = location;
+            document.getElementById('resourceCost').value = cost;
+
+            document.getElementById('editResourceModal').style.display = 'flex';  // Show the modal
+        });
+    });
+
+    // Populate Team Member Edit Modal
+    const editTeamMemberButtons = document.querySelectorAll('.edit-team-member-btn');
+    editTeamMemberButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const memberId = this.dataset.memberId;
+            const memberName = this.dataset.memberName;
+            const role = this.dataset.memberRole;
+            const qualification = this.dataset.memberQualification;
+            const email = this.dataset.memberEmail;
+
+            document.getElementById('memberId').value = memberId;
+            document.getElementById('memberName').value = memberName;
+            document.getElementById('role').value = role;
+            document.getElementById('qualification').value = qualification;
+            document.getElementById('email').value = email;
+
+            document.getElementById('editTeamMemberModal').style.display = 'flex';  // Show the modal
+        });
+    });
+
+    // Close Modals
+    document.getElementById('closeResourceModal').addEventListener('click', () => {
+        document.getElementById('editResourceModal').style.display = 'none';
+    });
+
+    document.getElementById('closeTeamMemberModal').addEventListener('click', () => {
+        document.getElementById('editTeamMemberModal').style.display = 'none';
+    });
+
+    // Handle Resource Edit Form Submission (AJAX)
+    document.getElementById('editResourceForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const resourceId = document.getElementById('resourceId').value;
+        const resourceName = document.getElementById('resourceName').value;
+        const provider = document.getElementById('provider').value;
+        const capacity = document.getElementById('capacity').value;
+        const location = document.getElementById('location').value;
+        const resourceCost = document.getElementById('resourceCost').value;
+
+        fetch(`/edit-resource/${resourceId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify({
+                resourceName,
+                provider,
+                capacity,
+                location,
+                resourceCost,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('editResourceModal').style.display = 'none';
+                window.location.reload();
+            } else {
+                alert('Failed to update resource');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error updating the resource');
+        });
+    });
+
+    // Handle Team Member Edit Form Submission (AJAX)
+    document.getElementById('editTeamMemberForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const memberId = document.getElementById('memberId').value;
+        const memberName = document.getElementById('memberName').value;
+        const role = document.getElementById('role').value;
+        const qualification = document.getElementById('qualification').value;
+        const email = document.getElementById('email').value;
+
+        fetch(`/edit-team-member/${memberId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify({
+                memberName,
+                role,
+                qualification,
+                email,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('editTeamMemberModal').style.display = 'none';
+                window.location.reload();
+            } else {
+                alert('Failed to update team member');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error updating the team member');
+        });
+    });
+</script>
+
+</body>
+</html>

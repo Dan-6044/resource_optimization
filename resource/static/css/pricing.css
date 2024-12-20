@@ -1,0 +1,117 @@
+ /* Scope styles to the home-section to avoid conflicts */
+ .home-section {
+    min-height: 80vh; /* Occupy full viewport height */
+    padding-top: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.home-section h1 {
+    font-size: 3.0rem; /* Increase font size of heading */
+    margin-top: 1rem;
+    margin-bottom: 2.0rem; /* Add space below the heading */
+}
+.home-section .intro-text p {
+    font-size: 1.8rem; /* Increase font size of paragraphs */
+    margin-bottom: 1.5rem; /* Add space between paragraphs */
+}
+.home-section .icon-link {
+    flex-direction: column;
+    text-decoration: none;
+    
+    margin: 0 1.5rem; /* Space between each icon */
+    transition: transform 0.3s ease;
+}
+.home-section .icon-link i {
+    font-size: 3rem;
+    color: #16d5f7;
+    margin-bottom: 1.5rem; /* Space between icon and label */
+}
+.home-section .icon-link p {
+    font-size: 1.1rem; /* Increase font size of icon labels */
+    margin: 0; /* Remove extra margin */
+}
+.home-section .icon-link:hover {
+    transform: scale(1.1);
+    color: #882126;
+}
+.home-section .btn-get-started {
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    margin-top: 2rem; /* Add space above the button */
+    font-size: 1.2rem; /* Increase font size of button text */
+}
+.home-section .btn-get-started:hover {
+    transform: scale(1.1);
+    background-color: #25c1e7;
+    color: white;
+}
+.card-title {
+    margin: 0; /* Remove any default margin */
+    padding-left: 0; /* Ensure no padding on the left */
+}
+
+.tick-icon {
+    margin-right: 8px; /* Space between icon and text */
+    color: #28a745; /* Change icon color */
+}
+
+.list-unstyled li {
+    font-size: 0.9rem; /* Adjust the font size */
+    margin-bottom: 0.5rem; /* Space between list items */
+    display: flex; /* Use Flexbox for alignment */
+    align-items: center; /* Vertically align items */
+}
+.toggle-section {
+    padding: 3rem 0; /* Adjust padding as needed */
+}
+
+.toggle-container {
+    max-width: 90%; /* Fixed width for the small container */
+    background-color: #f8f9fa; /* White background for each container */
+    border-radius: 10px; /* Rounded corners */
+    padding: 60px 20px 20px; /* Add top padding to create space for the image container */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin: 0 auto; /* Center the container */
+    position: relative; /* Set to relative to position the small image container */
+}
+
+.small-image-container {
+    width: 150px; /* Fixed width for the small container */
+    height: 100px; /* Adjusted height for the small container */
+    margin: -1px auto 10px; /* Pull it up halfway out of the main container */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center the image horizontally */
+    align-items: center; /* Center the image vertically */
+    background-color: white; /* Light background for contrast */
+    position: absolute; /* Set to absolute to pull it out of the flow */
+    top: -50px; /* Pull it up to be halfway out */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the container */
+    z-index: 10; /* Ensure it appears above other content */
+    border-radius: 10px; /* Optional: round the corners for styling */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: add some shadow */
+}
+
+.small-image-container img {
+    width: 100%; /* Adjust the image size */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    background-color: #bbb; /* Default color */
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171; /* Active color */
+}
+

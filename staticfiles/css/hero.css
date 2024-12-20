@@ -1,0 +1,77 @@
+.hero-section {
+    background-color: lightblue;
+    border-radius: 20px;
+    padding: 50px;
+    text-align: center;
+    width: 70%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+}
+
+.hero-section h1 {
+    font-weight: normal;
+    font-size: 2.5em;
+    color: #333;
+}
+
+.hero-section h6 {
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.hero-section .btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.hero-section .btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.hero-section .btn .arrow {
+    margin-left: 10px;
+    font-size: 1.2em;
+    transition: transform 0.3s;
+}
+
+.hero-section .btn:hover .arrow {
+    transform: translateX(5px);
+}
+
+.hero-section .no-credit {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.hero-section .image-container {
+    position: relative;
+    margin-top: 30px;
+    display: inline-block;
+}
+
+.hero-section .main-image {
+    opacity: 0.3; /* Image not clearly visible */
+    width: 300px;
+    height: 200px;
+}
+
+.hero-section .overlay-image {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 80px; /* Small clear image */
+    height: 80px;
+    z-index: 2;
+}

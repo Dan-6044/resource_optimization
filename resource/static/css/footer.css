@@ -1,0 +1,31 @@
+.custom-footer {
+    background-color: #828385; /* Dark background for the footer */
+}
+
+.footer-logo {
+    color: #ffffff;
+    font-size: 1.5rem;
+}
+
+.footer-links a {
+    color: #ffffff; /* Link color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s; /* Transition for hover effect */
+}
+
+.footer-links a:hover {
+    color: #007bff; /* Color change on hover */
+}
+
+.social-icons a {
+    font-size: 1.5rem; /* Size of social icons */
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #007bff; /* Color change on hover */
+}
+
+hr {
+    border-color: #ffffff; /* Horizontal line color */
+}

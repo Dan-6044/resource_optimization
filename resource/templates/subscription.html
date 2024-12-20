@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        .subscription-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            height: 100%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .subscription-form {
+            flex: 1 1 60%;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .subscription-image {
+            flex: 1 1 40%;
+            background-image: url("{% static 'images/select-what-youd-like-to-focus-on.png' %}");
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h1 class="text-center mb-4">Complete Your Subscription</h1>
+            <div class="subscription-container">
+                <!-- Left Section: Subscription Form -->
+                <div class="subscription-form">
+                    <div class="card border-0">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4 class="mb-0">Subscription Details</h4>
+                        </div>
+                        <div class="card-body">
+                           <!-- Display chosen subscription -->
+                           <h5 class="card-title text-center mb-3">Plan: <span id="plan-name">N/A</span></h5>
+                           <h6 class="text-center text-muted mb-4">Amount: $<span id="plan-price">0</span></h6>
+                           <h6 class="text-center text-muted mb-4">Expires on: <span id="plan-period">N/A</span></h6>
+                           <hr>
+
+                            <!-- Payment Form -->
+                            <form method="POST" action="{% url 'process_subscription_payment' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="plan_name" id="hidden-plan-name">
+                <input type="hidden" name="plan_price" id="hidden-plan-price">
+                <input type="hidden" name="plan_period" id="hidden-plan-period">
+
+                                
+                                <div class="mb-3">
+                                    <label for="paymentMethod" class="form-label">Choose Payment Method</label>
+                                    <select name="payment_method" id="paymentMethod" class="form-select" required>
+                                        <option value="" selected disabled>Select...</option>
+                                        <option value="card">Credit/Debit Card</option>
+                                        <option value="mpesa">M-Pesa</option>
+                                    </select>
+                                </div>
+                                <div id="cardDetails" class="d-none">
+                                    <div class="mb-3">
+                                        <label for="cardNumber" class="form-label">Card Number</label>
+                                        <input type="text" id="cardNumber" name="card_number" class="form-control" placeholder="1234 5678 9101 1121">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="expiryDate" class="form-label">Expiry Date</label>
+                                                <input type="date" id="expiryDate" name="expiry_date" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="cvv" class="form-label">CVV</label>
+                                                <input type="text" id="cvv" name="cvv" class="form-control" placeholder="123">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="mpesaDetails" class="d-none">
+                                    <div class="mb-3">
+                                        <label for="mpesaNumber" class="form-label">M-Pesa Number</label>
+                                        <input type="tel" id="mpesaNumber" name="mpesa_number" class="form-control" placeholder="07XXXXXXXX">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Confirm Payment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section: Image -->
+                <div class="subscription-image"></div>
+            </div>
+        </div>
+    </section>
+    <script>
+        // Get the subscription data from the URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const planName = urlParams.get('plan_name');
+        const price = urlParams.get('price');
+        const expiryDate = urlParams.get('expiry_date');
+    
+        // Set the displayed subscription details
+        document.getElementById('plan-name').textContent = planName || 'N/A';
+        document.getElementById('plan-price').textContent = price || '0';
+        document.getElementById('plan-period').textContent = expiryDate || 'N/A';
+    
+        // Set the hidden inputs with the subscription data
+        document.getElementById('hidden-plan-name').value = planName || '';
+        document.getElementById('hidden-plan-price').value = price || '';
+        document.getElementById('hidden-plan-period').value = expiryDate || '';
+    
+        // Optional: Dynamically handle payment method selection
+        document.getElementById('paymentMethod').addEventListener('change', function() {
+            const cardDetails = document.getElementById('cardDetails');
+            const mpesaDetails = document.getElementById('mpesaDetails');
+    
+            if (this.value === 'card') {
+                cardDetails.classList.remove('d-none');
+                mpesaDetails.classList.add('d-none');
+            } else if (this.value === 'mpesa') {
+                cardDetails.classList.add('d-none');
+                mpesaDetails.classList.remove('d-none');
+            }
+        });
+    </script>
+
+    <script>
+        // Toggle payment method details
+        const paymentMethod = document.getElementById('paymentMethod');
+        const cardDetails = document.getElementById('cardDetails');
+        const mpesaDetails = document.getElementById('mpesaDetails');
+
+        paymentMethod.addEventListener('change', function () {
+            cardDetails.classList.add('d-none');
+            mpesaDetails.classList.add('d-none');
+            if (this.value === 'card') {
+                cardDetails.classList.remove('d-none');
+            } else if (this.value === 'mpesa') {
+                mpesaDetails.classList.remove('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

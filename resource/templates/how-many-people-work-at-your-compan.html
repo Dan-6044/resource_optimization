@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Many People Work At Your Company?</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/how-many-people-work-at-your-company.css' %}">
+</head>
+<body>
+    <form method="POST" action="{% url 'how_many_people_work_at_your_company' %}">
+        {% csrf_token %}
+        <div class="container d-flex">
+            <!-- Left Section: Content -->
+            <div class="content-section">
+                <h2 class="text-dark">Fast<span class="text-info">Pro<sub class="text-danger">.com</sub></span></h2>
+                <h3>How many people are on your team?</h3>
+                
+                <!-- Team Size Options -->
+                <div class="checkbox-container">
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Only Me" onchange="showRoles()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Only Me</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="2-5" onchange="showRoles()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">2-19</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="2-5" onchange="showRoles()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">10-49</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="2-5" onchange="showRoles()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">50 and above</span>
+                    </label>
+                    <!-- Add additional team size options as needed -->
+                </div>
+
+                <!-- Roles Options, initially hidden -->
+                <div class="roles-container" id="rolesContainer" style="display:none;">
+                    <h3>How many people work at your company?</h3>
+                    <div class="checkbox-container">
+                        <label class="checkbox-box">
+                            <input type="radio" name="role" value="1-19" onchange="enableSubmitButton()">
+                            <div class="circle-checkbox"></div>
+                            <span class="small-font">1-19</span>
+                        </label>
+                        <label class="checkbox-box">
+                            <input type="radio" name="role" value="1-19" onchange="enableSubmitButton()">
+                            <div class="circle-checkbox"></div>
+                            <span class="small-font">20-39</span>
+                        </label>
+                        <label class="checkbox-box">
+                            <input type="radio" name="role" value="1-19" onchange="enableSubmitButton()">
+                            <div class="circle-checkbox"></div>
+                            <span class="small-font">40-79</span>
+                        </label>
+                        <label class="checkbox-box">
+                            <input type="radio" name="role" value="1-19" onchange="enableSubmitButton()">
+                            <div class="circle-checkbox"></div>
+                            <span class="small-font">80 and Above</span>
+                        </label>
+                        
+                        <!-- Add additional role options as needed -->
+                    </div>
+                </div>
+
+                <!-- Button Section -->
+                <div class="button-container">
+                    <button type="button" class="back-btn" onclick="goBack()">Back</button>
+                    <button type="submit" class="submit-btn" id="continueButton" disabled>Continue</button>
+                </div>
+            </div>
+
+            <!-- Right Section: Image -->
+            <div class="image-section"></div>
+        </div>
+    </form>
+
+    <script>
+        function showRoles() {
+            document.getElementById('rolesContainer').style.display = 'flex'; // Show roles section
+        }
+
+        function enableSubmitButton() {
+            const continueButton = document.getElementById('continueButton');
+            continueButton.disabled = false; // Enable continue button
+            continueButton.classList.add('active');
+        }
+
+        function goBack() {
+            // Redirect to a previous page if needed
+            window.location.href = "{% url 'what_brings_you_here_today' %}";
+        }
+    </script>
+</body>
+</html>

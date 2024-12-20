@@ -1,0 +1,483 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects and Tasks</title>
+    <style>
+        /* General body and container styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Centered heading */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Project section styling */
+        .project-section {
+            margin-bottom: 40px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 20px;
+        }
+        .project-section h2 {
+            color: #007bff;
+            font-size: 24px;
+        }
+        .project-section p {
+            font-size: 16px;
+        }
+        .actions a {
+            margin-right: 10px;
+        }
+
+        /* Task table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        tr:hover td {
+            background-color: #f1f1f1;
+        }
+
+        /* Modal styling */
+        #editModal, #editProjectModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+            max-width: 500px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .modal-content label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .modal-content input[type="text"],
+        .modal-content input[type="date"],
+        .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-content .btn-edit {
+            background-color: #007bff;
+        }
+        .modal-content .btn-delete {
+            background-color: #dc3545;
+        }
+
+        /* Button styles */
+        .btn {
+            padding: 8px 15px;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .btn-edit {
+            background-color: #007bff;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        .btn-custom {
+    background-color: #007bff; /* Customize this color */
+    border-color: #007bff;
+    text-decoration: none;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="javascript:history.back()"class="btn btn-custom">Go Back</a>
+            <h1>Your Projects and Tasks</h1>          
+
+        </div>
+        
+
+        {% for project in projects %}
+        <div class="project-section">
+            <h2>{{ project.name }}</h2>
+            <p><strong>Duration:</strong> {{ project.duration }} days</p>
+            <p><strong>Number of Tasks:</strong> {{ project.num_tasks }}</p>
+            <p><strong>Cost:</strong> ${{ project.cost }}</p>
+
+
+
+            <h3>Tasks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Resources Required</th>
+                        <th>Dependencies</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in project.tasks.all %}
+                    <tr>
+                        <td>{{ task.name }}</td>
+                        <td>{{ task.start_date }}</td>
+                        <td>{{ task.end_date }}</td>
+                        <td>{{ task.resources_required }}</td>
+                        <td>{{ task.dependencies }}</td>
+                        <td>
+                            <button class="btn btn-edit edit-btn" data-task-id="{{ task.id }}" data-task-name="{{ task.name }}" data-task-start="{{ task.start_date }}" data-task-end="{{ task.end_date }}" data-task-resources="{{ task.resources_required }}" data-task-dependencies="{{ task.dependencies }}">Edit</button>
+                            <a href="{% url 'delete_task' task.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this task?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No tasks available for this project.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        {% empty %}
+        <p>No projects found.</p>
+        {% endfor %}
+
+        <!-- Task Edit Modal -->
+        <div id="editModal">
+            <div class="modal-content">
+                <h2>Edit Task</h2>
+                <form id="editTaskForm">
+                    <input type="hidden" id="taskId">
+                    <label for="taskName">Task Name:</label>
+                    <input type="text" id="taskName" name="taskName" required>
+                    
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                    
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                    
+                    <label for="resources">Resources Required:</label>
+                    <input type="text" id="resources" name="resources" required>
+                    
+                    <label for="dependencies">Dependencies:</label>
+                    <input type="text" id="dependencies" name="dependencies">
+                    
+                    <button type="submit" class="btn btn-edit">Save Changes</button>
+                    <button type="button" id="closeModal" class="btn btn-delete">Close</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Project Edit Modal -->
+        <div id="editProjectModal">
+            <div class="modal-content">
+                <h2>Edit Project</h2>
+                <form id="editProjectForm">
+                    <input type="hidden" id="projectId">
+                    <label for="projectName">Project Name:</label>
+                    <input type="text" id="projectName" name="projectName" required>
+
+                    <label for="duration">Duration:</label>
+                    <input type="number" id="duration" name="duration" required>
+
+                    <label for="cost">Cost:</label>
+                    <input type="text" id="cost" name="cost" required>
+
+                    <button type="submit" class="btn btn-edit">Save Changes</button>
+                    <button type="button" id="closeProjectModal" class="btn btn-delete">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Function to open the Edit Task Modal
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const taskId = e.target.getAttribute('data-task-id');
+                const taskName = e.target.getAttribute('data-task-name');
+                const startDate = e.target.getAttribute('data-task-start');
+                const endDate = e.target.getAttribute('data-task-end');
+                const resources = e.target.getAttribute('data-task-resources');
+                const dependencies = e.target.getAttribute('data-task-dependencies');
+    
+                // Set the values in the modal form
+                document.getElementById('taskId').value = taskId;
+                document.getElementById('taskName').value = taskName;
+                document.getElementById('startDate').value = startDate;
+                document.getElementById('endDate').value = endDate;
+                document.getElementById('resources').value = resources;
+                document.getElementById('dependencies').value = dependencies;
+    
+                // Display the modal
+                document.getElementById('editModal').style.display = 'block';
+            });
+        });
+    
+        // Close the Edit Task Modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('editModal').style.display = 'none';
+        });
+    
+        // Function to open the Edit Project Modal
+        document.querySelectorAll('.edit-project-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectId = e.target.getAttribute('data-project-id');
+                const projectName = e.target.getAttribute('data-project-name');
+                const duration = e.target.getAttribute('data-project-duration');
+                const cost = e.target.getAttribute('data-project-cost');
+    
+                // Set the values in the modal form
+                document.getElementById('projectId').value = projectId;
+                document.getElementById('projectName').value = projectName;
+                document.getElementById('duration').value = duration;
+                document.getElementById('cost').value = cost;
+    
+                // Display the modal
+                document.getElementById('editProjectModal').style.display = 'block';
+            });
+        });
+    
+        // Close the Edit Project Modal
+        document.getElementById('closeProjectModal').addEventListener('click', () => {
+            document.getElementById('editProjectModal').style.display = 'none';
+        });
+    
+        // Handle task form submission (AJAX)
+        document.getElementById('editTaskForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+    
+            const taskId = document.getElementById('taskId').value;
+            const taskName = document.getElementById('taskName').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const resources = document.getElementById('resources').value;
+            const dependencies = document.getElementById('dependencies').value;
+    
+            // Send the data via fetch to the backend to update the task
+            fetch(`/edit-task/${taskId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({
+                    taskName,
+                    startDate,
+                    endDate,
+                    resources,
+                    dependencies
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close the modal and reload the page to reflect changes
+                    document.getElementById('editModal').style.display = 'none';
+                    window.location.reload();
+                } else {
+                    alert('Failed to update task');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error updating the task');
+            });
+        });
+    
+        // Handle project form submission (AJAX)
+        document.getElementById('editProjectForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+    
+            const projectId = document.getElementById('projectId').value;
+            const projectName = document.getElementById('projectName').value;
+            const duration = document.getElementById('duration').value;
+            const cost = document.getElementById('cost').value;
+    
+            // Send the data via fetch to the backend to update the project
+            fetch(`/edit-project/${projectId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({
+                    projectName,
+                    duration,
+                    cost
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close the modal and reload the page to reflect changes
+                    document.getElementById('editProjectModal').style.display = 'none';
+                    window.location.reload();
+                } else {
+                    alert('Failed to update project');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error updating the project');
+            });
+        });
+    
+        // Handle resource form submission (AJAX)
+        document.getElementById('editResourceForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+    
+            const resourceId = document.getElementById('resourceId').value;
+            const resourceName = document.getElementById('resourceName').value;
+            const provider = document.getElementById('provider').value;
+            const capacity = document.getElementById('capacity').value;
+            const location = document.getElementById('location').value;
+            const resourceCost = document.getElementById('resourceCost').value;
+    
+            // Send the data via fetch to the backend to update the resource
+            fetch(`/edit-resource/${resourceId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({
+                    resourceName,
+                    provider,
+                    capacity,
+                    location,
+                    resourceCost
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close the modal and reload the page to reflect changes
+                    document.getElementById('editResourceModal').style.display = 'none';
+                    window.location.reload();
+                } else {
+                    alert('Failed to update resource');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error updating the resource');
+            });
+        });
+    
+        // Handle team member form submission (AJAX)
+        document.getElementById('editTeamMemberForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+    
+            const memberId = document.getElementById('memberId').value;
+            const memberName = document.getElementById('memberName').value;
+            const role = document.getElementById('role').value;
+            const qualification = document.getElementById('qualification').value;
+            const email = document.getElementById('email').value;
+    
+            // Send the data via fetch to the backend to update the team member
+            fetch(`/edit-team-member/${memberId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({
+                    memberName,
+                    role,
+                    qualification,
+                    email
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close the modal and reload the page to reflect changes
+                    document.getElementById('editTeamMemberModal').style.display = 'none';
+                    window.location.reload();
+                } else {
+                    alert('Failed to update team member');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error updating the team member');
+            });
+        });
+
+    </script>
+    
+</body>
+</html>

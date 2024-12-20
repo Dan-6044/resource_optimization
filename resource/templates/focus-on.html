@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Brings You Here Today?</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/focus.css' %}">
+</head>
+<body>  <form action="{% url 'focus_on' %}" method="post" id="focusForm">
+    {% csrf_token %}
+    <div class="container">
+        <!-- Left Section: Content -->
+            <div class="content-section">
+                <h2 class="text-dark">Fast<span class="text-info">Pro<sub class="text-danger">.com</sub></span></h2>
+                <h3>Select what you would like to focus on first</h3>
+                <p class="fs-16">Helps us tailor best experience for you</p>
+                
+                <!-- Checkbox Options -->
+                <div class="checkbox-container">
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Emergency Response" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Emergency<br> Response</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Grants management" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Grants <br> management</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Event management" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Event <br>management</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Project management" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Project <br>management</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="PMO" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">PMO</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Client Projects" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Client Projects</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="HR & Recruiting" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">HR & Recruiting</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Donor management" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Donor <br>management</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Portfolio Management" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Portfolio <br>Management</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Business Operations" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Business <br> Operations</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="CRM" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font"> CRM</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="Goals and strategy" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Goals and  <br>strategy</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="button-container">
+                    <button type="button" class="back-btn" onclick="goBack()">Back</button>
+                    <button class="submit-btn" id="submit-button" onclick="document.getElementById('focusForm').submit();" disabled>Continue</button>
+                </div>
+            </div>
+        
+
+        <!-- Right Section: Image -->
+        <dv class="image-section"></div>
+    </div>
+</form>
+
+    <script>
+        function enableSubmitButton() {
+            const submitButton = document.getElementById("submit-button");
+            submitButton.disabled = false; // Enable the submit button
+            submitButton.classList.add("active"); // Add the active class for styling
+        }
+        function goBack() {
+            // Add your back logic here
+            window.location.href = "{% url 'select_what_youd_like_to_manage' %}";
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

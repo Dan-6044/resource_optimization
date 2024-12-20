@@ -1,0 +1,390 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/pricing.css' %}">
+   
+</head>
+<body>
+
+
+    {% include "navbar.html" %}
+
+
+<!-- Section: Home -->
+<section class="home-section text-center mb-5 fs-20">
+    <h1>Supercharge your teamwork.<span class="text-secondary"> Start free.</span></h1>
+    <div class="d-flex flex-column align-items-center intro-text">
+        <p class="text-secondary">Discover the perfect plan for your business needs.</p>
+        <p class="text-secondary">Choose a product to start with:</p>
+    </div>
+    <div class="d-flex justify-content-center gap-5 my-4">
+        <a href="#pricing" class="icon-link text-center">
+            <i class="bi bi-people-fill" style="font-size: 3rem;"></i>
+            <p>CRM</p>
+        </a>
+        <a href="#pricing" class="icon-link text-center">
+            <i class="bi bi-code-slash" style="font-size: 3rem;"></i>
+            <p>DEV</p>
+        </a>
+        <a href="#pricing" class="icon-link text-center">
+            <i class="bi bi-briefcase-fill" style="font-size: 3rem;"></i>
+            <p>Project Management</p>
+        </a>
+    </div>
+    <a href="#pricing"  class="btn btn-info btn-get-started">
+        Get Started <i class="bi bi-arrow-right ms-2"></i>
+    </a>
+</section>
+
+
+<!-- Section 2: Pricing Plans -->
+<section id="pricing" class="pricing-section py-5 bg-light text-center">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-5 g-3">
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Free</h5>
+                        <h2 class="card-price mb-3">
+                            <span class="text-secondary fs-24">$</span>0<sup class="text-secondary fs-6">Free</sup><sub class="text-secondary fs-6">Forever</sub>
+                        </h2>
+                        <h5 class="card-title mb-5">Upto 2 seats</h5>
+                        <a  class="btn btn-primary btn-get-started mb-5 subscription-btn" 
+                           data-plan-name="Free" 
+                           data-price="0.00" 
+                           data-period="weeks"> 
+                         Start for Free<i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                        <p class="mt-2 text-secondary fs-8">For individuals looking to keep track of their work</p>
+                        <hr class="border-secondary" style="height: 2px;">
+                        <h5 class="card-title mb-2">Free includes:</h5>
+                        <ul class="list-unstyled mb-3">
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Up to 3 boards</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Unlimited docs</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>200+ templates</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>8 column types</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>iOS and Android apps</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Basic</h5>
+                        <h2 class="card-price mb-3">
+                            <span class="text-secondary fs-24">$</span>9<sup class="text-secondary fs-6">Seat/</sup><sub class="text-secondary fs-6">Month</sub>
+                        </h2>
+                        <h5 class="card-title ">Total $27/ month</h5>
+                        <h5 class="mb-4 fs-6"><span class="text-secondary fs-24">Billed Annually</span></h5>
+                        <a class="btn btn-primary btn-get-started mb-5 subscription-btn" 
+                            data-plan-name="Basic" 
+                            data-price="9.00" 
+                            data-period="1">
+                            Subscribe Basic<i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                        <p class="mt-1 text-secondary fs-8 mb-4">Manage all your team’s work in one place</p>
+                        <hr class="border-secondary " style="height: 2px;">
+                        <h5 class="card-title mb-2">Includes free, plus:</h5>
+                        <ul class="list-unstyled mb-3">
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Unlimited free viewers</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Unlimited items</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>5GB file storage</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Prioritised customer support</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Create a dashboard based on 1 board</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 border-info"> <!-- Border color matches the background -->
+                    <div class="card-body p-0"> <!-- Remove padding from the card body -->
+                        <h3 class="bg-info text-white text-center m-0 p-2 mb-3" style="font-size: 0.875rem;">Most Popular</h3> <!-- No margin, adjusted padding -->
+                        <h5 class="card-title mb-3">Standard</h5>
+                        <h2 class="card-price mb-3">
+                            <span class="text-secondary fs-24">$</span>12<sup class="text-secondary fs-6">Seat/</sup><sub class="text-secondary fs-6">Month</sub>
+                        </h2>
+                        <h5 class="card-title ">Total $36/ month</h5>
+                        <h5 class="mb-4 fs-6"><span class="text-secondary fs-24">Billed Annually</span></h5>
+                        <a class="btn btn-primary btn-get-started mb-5 subscription-btn" 
+                            data-plan-name="Standard" 
+                            data-price="12.00" 
+                            data-period="1">
+                            Subscribe Standard<i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                        <p class="mt-1 text-secondary fs-8 mb-4">Collaborate & optimize your work across teams</p>
+                        <hr class="border-secondary" style="height: 2px;">
+                        <h5 class="card-title mb-2">Includes basic, plus:</h5>
+                        <ul class="list-unstyled mb-3">
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Timeline & Gantt views</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Calendar View</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Guest access</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Automations <br>(250 actions per month)</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Integrations <br> (250 actions per month)</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Create a dashboard<br> that combines 5 boards</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Pro</h5>
+                        <h2 class="card-price mb-3">
+                            <span class="text-secondary fs-24">$</span>19<sup class="text-secondary fs-6">Seat/</sup><sub class="text-secondary fs-6">Month</sub>
+                        </h2>
+                        <h5 class="card-title mb-3">Total $36/ month</h5>
+                        <h5 class="mb-4 fs-6"><span class="text-secondary fs-24">Billed Annually</span></h5>
+                        <a  class="btn btn-primary btn-get-started mb-5 subscription-btn" 
+                            data-plan-name="Pro" 
+                            data-price="19.00" 
+                            data-period="1">
+                            Start for Free<i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                        <p class="mt-1 text-secondary fs-8 mb-4">Streamline complex workflows at scale</p>
+                        <hr class="border-secondary " style="height: 2px;">
+                        <h5 class="card-title mb-2">Includes standard, plus:</h5>
+                        <ul class="list-unstyled mb-3">
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Private boards</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Chart View</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Formula Column</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>PAutomations (25K<br> actions per month)</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Integrations (25K<br> actions per month)</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Create a dashboard <br>that combines 20<br> boards</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Enterprise</h5>
+                        <i class="bi bi-building" style="font-size: 6rem;"></i> 
+                        <a href="#" class="btn btn-outline-primary mb-4">Contact Sales</a>
+                        <p class="mt-1 text-secondary fs-8 mb-4">Get exclusive features for your organization</p>
+                        <hr class="border-secondary " style="height: 2px;">
+                        <h5 class="card-title mb-2">Includes pro, plus:</h5>
+                        <ul class="list-unstyled mb-3">
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Enterprise-scale<br> automations &<br> integrations</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Multi-level permissions</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Enterprise-grade <br>security & governance</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Advanced reporting & <br>analytics</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Tailored onboarding *</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Enterprise support</li>
+                            <li><i class="bi bi-check-circle-fill tick-icon"></i>Create a dashboard<br> that combines 50<br> boards</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 3: Partners -->
+<section class="partners-section py-5 text-center mb-5">
+    <h4 class="mb-5 text-secondary" style="font-size: 2rem;">225,000+ customers worldwide rely<br> on monday.com</h4>
+    <div class="d-flex justify-content-center gap-3">
+        <img src="{% static 'img/small-logos/devto.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'images/visa.png' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-xd.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-jira.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-atlassian.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-asana.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-slack.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-invision.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+    </div>
+</section>
+
+<!-- Section 4: Toggling Containers -->
+<section class="toggle-section py-5 bg-light text-center ">
+    <div class="container" style="max-width: 90%;">
+        <div class="toggle-container active mb-5" id="toggle-0">
+            <div class="small-image-container mt-3">
+                <img src="{% static 'images/genpact.png' %}" alt="Toggle Image" class="rounded-circle">
+            </div>
+            <p class=" mb-4"style="font-size: 2rem;">Thanks to FastPro.com, we are now able to budget the team’s time and efforts much more scientifically, leading to increased operational.</p>
+            <h5>John Shivakumar |<span class="text-secondary">Half of priority at 02 Genpact.com</span></h5>
+        </div>
+        <div class="toggle-container mb-5" id="toggle-1" style="display: none;">
+            <div class="small-image-container mt-3">
+                <img src="{% static 'images/telefonica.png' %}" alt="Toggle Image" class="rounded-circle">
+            </div>
+            <p class=" mb-4"style="font-size: 2rem;">This improvement has not only streamlined our workflows but also enhanced collaboration across departments, allowing us to meet deadlines more efficiently.</p>
+            <h5>Samuel Klovocic |<span class="text-secondary">Half of priority at 02 Telefonica.com</span></h5>
+        </div>
+        <div class="toggle-container mb-5" id="toggle-2" style="display: none;">
+            <div class="small-image-container mt-3">
+                <img src="{% static 'images/thoughtworks.png' %}" alt="Toggle Image" class="rounded-circle">
+            </div>
+            <p class=" mb-4"style="font-size: 2rem;">As a result, we have seen a noticeable increase in productivity, enabling us to allocate resources more effectively and focus on strategic initiatives.</p>
+            <h5>Samyuktha Shivakumar |<span class="text-secondary">Half of priority at 02 ThoughtWorks.com</span></h5>
+        </div>
+
+        <!-- Navigation Dots -->
+        <div class="text-center mt-4">
+            <span class="dot active" onclick="showRow(0)"></span>
+            <span class="dot" onclick="showRow(1)"></span>
+            <span class="dot" onclick="showRow(2)"></span>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Section 5: FAQ -->
+<section class="faq-section py-5">
+    <div class="container">
+        <h3>Frequently Asked Questions</h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        What is the free trial period?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faq1" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Our free trial period allows you to explore all features without commitment. It lasts for 14 days and gives you full access to our platform, enabling you to evaluate how it meets your needs.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        What happens after the trial period ends?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faq2" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        After the trial, you can choose from any of our plans to continue using the service. If you do not select a plan, your account will be downgraded to a limited access mode, but your data will be retained.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        How do I cancel my subscription?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="faq3" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To cancel your subscription, go to your account settings, select the "Billing" tab, and click on "Cancel Subscription." You will receive a confirmation email once your subscription is canceled.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Are there any hidden fees?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="faq4" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        No, we believe in transparency. All fees are clearly outlined in our pricing plans, and there are no hidden charges. You only pay for the plan you select.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq5">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        Can I upgrade or downgrade my plan at any time?
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="faq5" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, you can upgrade or downgrade your plan at any time through your account settings. Changes will take effect immediately, and any billing adjustments will be reflected in your next payment cycle.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq6">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        What support options are available?
+                    </button>
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="faq6" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        We offer a variety of support options, including a comprehensive knowledge base, live chat, and email support. Our support team is available 24/7 to assist you with any questions or issues.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq7">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        Is my data secure with your platform?
+                    </button>
+                </h2>
+                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="faq7" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, we take data security seriously. Our platform uses industry-standard encryption and follows best practices to protect your data. Regular security audits ensure that we maintain a secure environment for our users.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "footer.html" %}
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // JavaScript to toggle the display of the containers
+    function showRow(index) {
+        // Get all toggle containers
+        const toggleContainers = document.querySelectorAll('.toggle-container');
+        // Get all dots
+        const dots = document.querySelectorAll('.dot');
+
+        // Hide all containers and remove active class from dots
+        toggleContainers.forEach((container, i) => {
+            container.style.display = 'none';
+            dots[i].classList.remove('active');
+        });
+
+        // Show the selected container and add active class to the corresponding dot
+        toggleContainers[index].style.display = 'block';
+        dots[index].classList.add('active');
+    }
+
+    // Show the first container by default
+    document.addEventListener('DOMContentLoaded', function() {
+        showRow(0);
+    });
+</script>
+<script>
+    document.querySelectorAll('.subscription-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const planName = button.getAttribute('data-plan-name');
+            const price = button.getAttribute('data-price');
+            const period = button.getAttribute('data-period');
+
+            // Calculate expiry date
+            const today = new Date();
+            let expiryDate;
+            if (period === 'weeks') {
+                expiryDate = new Date(today.setDate(today.getDate() + 14));
+            } else if (period === '1') {
+                expiryDate = new Date(today.setMonth(today.getMonth() + 1));
+            }
+            const expiryDateString = expiryDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
+            // Redirect to subscription page with the plan details as query parameters
+            const subscriptionUrl = `/subscription/?plan_name=${encodeURIComponent(planName)}&price=${price}&expiry_date=${encodeURIComponent(expiryDateString)}`;
+            window.location.href = subscriptionUrl;
+        });
+    });
+</script>
+
+
+</body>
+</html>

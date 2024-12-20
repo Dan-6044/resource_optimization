@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/service.css' %}">
+</head>
+<body>
+
+{% block content %}
+<section class="services-section" id="services">
+    <div class="container">
+        <h4 class="section-title text-center mb-5 mt-5">What would you like to manage?</h4>
+
+        
+        <!-- First Row of Images -->
+        <div class="row service-set">
+            <div class="col-md-3">
+                <div class="service-item shadow">
+                    <img src="{% static 'images/main-img.jpg' %}" alt="Service 1" class="img-fluid service-img">
+                    <div class="service-details">
+                        <h6>Recommended Products</h6>
+                        <h4><i class="bi bi-gear-fill" style="color: #007bff;">Work Management </i></h4>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Social Media planner</p>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Marketing strategy</p>
+                        <a href="{% url 'signup_new' %}" class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="service-item shadow">
+                    <img src="{% static 'images/it.jpg' %}" alt="Service 2" class="img-fluid service-img">
+                    <div class="service-details">
+                        <h6>Recommended Products</h6>
+                        <h4><i class="bi bi-tools" style="color: #007bff;">Work Management </i></h4>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Project Management</p>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Task Management</p>
+                        <a href="{% url 'signup_new' %}"class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="service-item shadow">
+                    <img src="{% static 'images/projects.jpg' %}" alt="Service 3" class="img-fluid service-img">
+                    <div class="service-details">
+                        <h6>Recommended Products</h6>
+                        <h4><i class="bi bi-chat-dots-fill" style="color: #007bff;">CRM</i></h4>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Sales Pipeline</p>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Lead Management</p>
+                        <a href="{% url 'signup_new' %}" class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="service-item shadow">
+                    <img src="{% static 'images/operations.jpg' %}" alt="Service 4" class="img-fluid service-img">
+                    <div class="service-details">
+                        <h6>Recommended Products</h6>
+                        <h4> <i class="bi bi-heart-pulse" style="color: #007bff;">Service <sup>beta</sup></i></h4>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> IT service desk</p>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Incident Management</p>
+                        
+                        <a href="{% url 'signup_new' %}"class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row of Hidden Images -->
+        <div class="row service-set d-none">
+            <div class="col-md-3">
+                <div class="service-item shadow">
+                    <img src="{% static 'images/task.jpg' %}" alt="Service 5" class="img-fluid service-img">
+                    <div class="service-details">
+                        <h6>Recommended Products</h6>
+                        <h4><i class="bi bi-tools" style="color: #007bff;">Work Management </i></h4>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Event Management</p>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Facilities Request</p>
+                        
+                        <a href="{% url 'signup_new' %}" class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="service-item shadow">
+                    <img src="{% static 'images/marketing.jpg' %}" alt="Service 6" class="img-fluid service-img">
+                    <div class="service-details">
+                        <h6>Recommended Products</h6>
+                        <h4><i class="bi bi-broom" style="color: #007bff;">Work Management </i></h4>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Design Task</p>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Design Review</p>
+                        
+                        <a href="{% url 'signup_new' %}" class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="service-item shadow">
+                    <img src="{% static 'images/design.jpg' %}" alt="Service 7" class="img-fluid service-img">
+                    <div class="service-details">
+                        <h6>Recommended Products</h6>
+                        <h3><i class="bi bi-chat-square-dots" style="color: #007bff;">CRM </i></h3>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Customer Engagement</p>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Customer Retention</p>
+                        
+                        <a href="{% url 'signup_new' %}" class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="service-item shadow">
+                    <img src="{% static 'images/crm.jpg' %}" alt="Service 8" class="img-fluid service-img">
+                    <div class="service-details">
+                        <h6>Recommended Products</h6>
+                        <h4><i class="bi bi-heart-pulse" style="color: #007bff;">Service <sup>beta</sup> </i></h4>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Product Support</p>
+                        <p><i class="bi bi-check-circle-fill tick-icon"></i> Online Support</p>
+                        
+                        <a href="{% url 'signup_new' %}"class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Dots -->
+        <div class="text-center mt-4">
+            <span class="dot active" onclick="showRow(0)"></span>
+            <span class="dot" onclick="showRow(1)"></span>
+        </div>
+    </div>
+    <div class="container custom-partners mt-5 mb-5">
+        <h4 class="section-title text-center mb-5 fs-6">Trusted by 225,000+ customers, from startups to enterprises</h4>
+        <div class="d-flex justify-content-center gap-3">
+            <img src="{% static 'img/small-logos/devto.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'images/visa.png' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-xd.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-jira.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-atlassian.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-asana.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-slack.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+            <img src="{% static 'img/small-logos/logo-invision.svg' %}" alt="Partner Logo" class="img-fluid" style="max-width: 80px;">
+        </div>
+    </div>
+</section>
+
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let currentRow = 0;
+
+    function showRow(row) {
+        $('.service-set').addClass('d-none'); // Hide all rows
+        $('.service-set').eq(row).removeClass('d-none'); // Show selected row
+        $('.dot').removeClass('active'); // Reset active dots
+        $('.dot').eq(row).addClass('active'); // Set active dot
+    }
+
+    setInterval(() => {
+        currentRow = (currentRow + 1) % 2; // Toggle between the two rows
+        showRow(currentRow);
+    }, 5000); // Change every 5 seconds
+</script>
+
+{% endblock %}
+</body>
+</html>

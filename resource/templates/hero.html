@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <title>Home Page</title>
+    <style>
+        /* Styling for the container and grid */
+        .icon-container {
+            width: 50%; /* Adjust the width to your preference */
+            position: absolute;
+            right: 0; /* Align it to the right */
+            top: 0; /* Align it to the top */
+            transform: translateY(-10%); /* Adjust vertical positioning for overlap */
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Light background with transparency */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+        
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .icon-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .icon-box:hover {
+            background-color: #e2e6ea;
+        }
+
+        .icon-box i {
+            font-size: 24px;
+            color: #495057;
+        }
+
+        .icon-name {
+            font-size: 10px;
+            margin-top: 8px;
+            color: #495057;
+        }
+
+        .main-image {
+            filter: brightness(50%); /* Dim effect */
+            transition: filter 0.3s ease;
+        }
+
+        .image-clear {
+            filter: brightness(100%); /* Clear effect */
+        }
+
+        .get-started-btn {
+            margin-top: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body class="hero-page">
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center justify-content-center text-center py-5" style="min-height: 75vh;">
+        <div class="container">
+            <h1 class="display-4 fw-normal mb-3">Your Go-to Work Platform</h1>
+            <h6 class="fw-light mb-4">Streamline workflows and gain clear visibility across teams to make strategic decisions with confidence.</h6>
+            
+            <a href="{% url 'signup_new' %}" class="btn btn-primary btn-lg d-inline-flex align-items-center justify-content-center px-4 py-2">
+                Get Started 
+                <span class="ms-2">→</span>
+            </a>
+            
+            <p class="no-credit mt-3 small">No credit card needed ✦ Unlimited time on Free plan</p>
+
+            <div class="image-container position-relative mt-4">
+                <img id="main-img" src="{% static 'images/main-img.jpg' %}" alt="Main" class="img-fluid main-image">
+            
+                <!-- The new content container -->
+                <div class="icon-container">
+                    <p>Explore our tools for every team:</p>
+            
+                    <!-- Grid of icons -->
+                    <div class="icon-grid">
+                        <div class="icon-box" onclick="changeImage('images/product.jpg')">
+                            <i class="bi bi-box-seam"></i> <!-- Product icon -->
+                            <div class="icon-name">Product</div>
+                        </div>
+                        <div class="icon-box" onclick="changeImage('images/task.jpg')">
+                            <i class="bi bi-check2-square"></i> <!-- Task icon -->
+                            <div class="icon-name">Task</div>
+                        </div>
+                        <div class="icon-box" onclick="changeImage('images/marketing.jpg')">
+                            <i class="bi bi-megaphone"></i> <!-- Marketing icon -->
+                            <div class="icon-name">Marketing</div>
+                        </div>
+                        <div class="icon-box" onclick="changeImage('images/design.jpg')">
+                            <i class="bi bi-palette"></i> <!-- Design icon -->
+                            <div class="icon-name">Design</div>
+                        </div>
+                        <div class="icon-box" onclick="changeImage('images/crm.jpg')">
+                            <i class="bi bi-people"></i> <!-- CRM icon -->
+                            <div class="icon-name">CRM</div>
+                        </div>
+                        <div class="icon-box" onclick="changeImage('images/software.jpg')">
+                            <i class="bi bi-laptop"></i> <!-- Software icon -->
+                            <div class="icon-name">Software</div>
+                        </div>
+                        <div class="icon-box" onclick="changeImage('images/it.jpg')">
+                            <i class="bi bi-server"></i> <!-- IT icon -->
+                            <div class="icon-name">IT</div>
+                        </div>
+                        <div class="icon-box" onclick="changeImage('images/operations.jpg')">
+                            <i class="bi bi-gear-wide-connected"></i> <!-- Operations icon -->
+                            <div class="icon-name">Operations</div>
+                        </div>
+                        <div class="icon-box" onclick="changeImage('images/projects.jpg')">
+                            <i class="bi bi-kanban"></i> <!-- Projects icon -->
+                            <div class="icon-name">Projects</div>
+                        </div>
+                    </div>
+            
+                    <!-- Second Get Started button -->
+                    <div class="get-started-btn">
+                        <a href="{% url 'signup_new' %}" class="btn btn-primary btn-sm d-inline-flex align-items-center justify-content-center px-4 py-2">
+                            Get Started 
+                            <span class="ms-2">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Set a base URL for static images
+        const baseUrl = "{% static '' %}";
+
+        function changeImage(imagePath) {
+            // Get the main image element
+            var mainImg = document.getElementById('main-img');
+
+            // Remove the dimming effect class
+            mainImg.classList.remove('image-clear'); // Remove the clear effect
+
+            // Change the src of the main image to the new image path
+            mainImg.src = baseUrl + imagePath;
+
+            // Reapply the clear effect after a slight delay
+            setTimeout(() => {
+                mainImg.classList.add('image-clear'); // Reapply the clear effect
+            }, 5); // Small delay to ensure the image has changed
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Brings You Here Today?</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/what-brings-you-here-today.css' %}">
+</head>
+<body>
+    <form method="POST" action="{% url 'what_brings_you_here_today' %}">
+        {% csrf_token %}
+        <div class="container">
+            <div class="content-section">
+                <h2 class="text-dark">Fast<span class="text-info">Pro<sub class="text-danger">.com</sub></span></h2>
+                <h3>Hey there, what brings you here today?</h3>
+                
+                <!-- Checkbox Options -->
+                <div class="checkbox-container">
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="work" onchange="showRoles('work')">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Work</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="school" onchange="showRoles('school')">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">School</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="personal" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Personal</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="purpose" value="nonprofit" onchange="showRoles('nonprofit')">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Non-Profit</span>
+                    </label>
+                </div>
+    
+                <!-- Roles Options -->
+                <div class="roles-container" id="rolesContainer">
+                    <h3 id="rolesHeader">What best describes your role?</h3>
+                    <div class="checkbox-container" id="rolesOptions"></div>
+                </div>
+    
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn" id="submitButton" disabled>Continue</button>
+            </div>
+    
+            <!-- Right Section: Image -->
+            <div class="image-section"></div>
+        </div>
+    </form>    
+
+    <script>
+        function showRoles(purpose) {
+            const rolesContainer = document.getElementById("rolesContainer");
+            const rolesOptions = document.getElementById("rolesOptions");
+            rolesContainer.style.display = "flex"; // Show roles when a purpose is selected
+            rolesOptions.innerHTML = ''; // Clear previous options
+
+            if (purpose === 'work') {
+                // Roles for Work
+                rolesOptions.innerHTML = `
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="businessOwner" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Business <br> Owner</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="teamLeader" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Team Leader</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="freelancer" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Freelancer</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="director" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Director</span>
+                    </label>                    
+                    
+                `;
+            } else if (purpose === 'school') {
+                // Roles for School
+                rolesOptions.innerHTML = `
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="undergraduate" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Undergraduate</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="graduate" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Graduate</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="teacher" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Teacher</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="administrator" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Administrator</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="administrator" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Other</span>
+                    </label>
+                `;
+            } else if (purpose === 'nonprofit') {
+                // Roles for Non-Profit
+                rolesOptions.innerHTML = `
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="volunteer" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Volunteer</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="donor" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Executive</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="staff" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Board Member</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="administrator" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Employee</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="administrator" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">It stuff</span>
+                    </label>
+                    <label class="checkbox-box">
+                        <input type="radio" name="role" value="administrator" onchange="enableSubmitButton()">
+                        <div class="circle-checkbox"></div>
+                        <span class="small-font">Other</span>
+                    </label>
+                `;
+            } else if (purpose === 'personal') {
+                // Hide roles for personal purpose and clear previous role selections
+                const roleInputs = document.querySelectorAll('input[name="role"]');
+                roleInputs.forEach(input => {
+                    input.checked = false; // Uncheck all previously selected roles
+                });
+                
+                rolesContainer.style.display = "none"; // Hide roles for personal purpose
+                enableSubmitButton(); // Check if the button should be enabled
+            }
+
+            enableSubmitButton(); // Check if the button should be enabled
+        }
+
+         // Add this function to handle the button click
+    function handleContinueClick() {
+        const purposeSelected = document.querySelector('input[name="purpose"]:checked');
+        const roleSelected = document.querySelector('input[name="role"]:checked');
+
+        // Redirect based on selection
+        if (purposeSelected) {
+            window.location.href = "{% url 'how_many_people_work_at_your_company' %}";
+        }
+    }
+
+    // Existing functions remain the same...
+    function enableSubmitButton() {
+        const submitButton = document.getElementById("submitButton");
+        const purposeSelected = document.querySelector('input[name="purpose"]:checked');
+        const roleSelected = document.querySelector('input[name="role"]:checked');
+
+        // Enable button only if 'personal' is selected or both purpose and role are selected
+        if (purposeSelected && (purposeSelected.value === 'personal' || roleSelected)) {
+            submitButton.classList.add("active");
+            submitButton.disabled = false;
+        } else {
+            submitButton.classList.remove("active");
+            submitButton.disabled = true;
+        }
+    }
+    </script>
+</body>
+</html>

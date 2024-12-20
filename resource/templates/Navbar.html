@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>Navbar Example</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <h1 class="text-dark">Fast<span class="text-info">Pro<sub class="text-danger">.com</sub></span></h1>
+
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Products</a>
+                    <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4"> <!-- First Section -->
+                                    <h5>Platform</h5>
+                                    <div class="platform-link">
+                                        <i class="bi bi-speedometer2" style="color: #007bff;"></i>
+                                        <a class="nav-link" href="#">Dashboard</a>
+                                    </div>
+                                    <div class="platform-link">
+                                        <i class="bi bi-plug" style="color: #28a745;"></i>
+                                        <a class="nav-link" href="#">Integrations</a>
+                                    </div>
+                                    <div class="platform-link">
+                                        <i class="bi bi-gear" style="color: #ffc107;"></i>
+                                        <a class="nav-link" href="#">Automations</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"> <!-- Second Section -->
+                                    <h5>Products</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-file-earmark-text" style="font-size: 2rem; color: #007bff;"></i>
+                                                 <div>
+                                                    <a href="#" class="nav-link">Work Management</a>                                                   
+                                                    <p class="description">Plan. Track. Collaborate.</p>
+                                                 </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-people" style="font-size: 2rem; color: #28a745;"></i>
+                                                 <div>
+                                                    <a href="#" class="nav-link">CRM</a>                                                   
+                                                    <p class="description">Manage. Engage. Grow.</p>
+                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-code-slash" style="font-size: 1.5rem; color: #ffc107;"></i>
+                                                <div>
+                                                    <a href="#" class="nav-link"> Development </a>
+                                                    <p class="description">Code. Build. Deploy.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-palette" style="font-size: 2rem; color: #17a2b8;"></i>
+                                                <div>
+                                                <a href="#" class="nav-link">Design</a>
+                                                    <p class="description">Create. Inspire. Innovate.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"> <!-- Third Section -->
+                                    <h5>Advanced Features</h5>
+                                    <div class="platform-link">
+                                        <i class="bi bi-brain" style="color: #17a2b8;"></i>
+                                        <a class="nav-link" href="#">AI</a>
+                                    </div>
+                                    <div class="platform-link">
+                                        <i class="bi bi-server" style="color: #dc3545;"></i>
+                                        <a class="nav-link" href="#">Our Infrastructure</a>
+                                    </div>
+                                    <div class="platform-link">
+                                        <i class="bi bi-lock" style="color: #007bff;"></i>
+                                        <a class="nav-link" href="#">Security Features</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Solutions</a>
+                    <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4"> <!-- First Section -->
+                                    <h5>Company Size</h5>
+                                    <div class="platform-link">
+                                        <i class="bi bi-building-fill" style="font-size: 1.5rem; color: #007bff;"></i> <!-- Building icon -->
+                                        <div>
+                                            <a class="nav-link" href="#">Enterprise</a>
+                                            <p class="description">Large scale operations and solutions.</p>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link">
+                                        <i class="bi bi-house-fill" style="font-size: 1.5rem; color: #007bff;"></i> <!-- House icon -->
+                                        <div>
+                                            <a class="nav-link" href="#">SMB</a>
+                                            <p class="description">Small and medium-sized businesses.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4"> <!-- Second Section -->
+                                    <h5>Teams</h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-bar-chart-fill" style="font-size: 1.5rem;color:  #007bff;"></i> <!-- Bar chart icon -->
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <a class="nav-link" href="#">Marketing</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-person-fill" style="font-size: 1.5rem; color: #dc3545;"></i> <!-- Person icon -->
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <a class="nav-link" href="#">Sales</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-code-square" style="font-size: 1.5rem;color: #17a2b8;"></i> <!-- Code icon -->
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <a class="nav-link" href="#">Product</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-hammer" style="font-size: 1.5rem;color: #ffc107;"></i> <!-- Hammer icon -->
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <a class="nav-link" href="#">R&D</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-currency-dollar" style="font-size: 1.5rem;color: #28a745;"></i> <!-- Currency dollar icon -->
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <a class="nav-link" href="#">Finance</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-diagram-3-fill" style="font-size: 1.5rem;color: #ffc107;"></i> <!-- Diagram icon -->
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <a class="nav-link" href="#">Operations</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-people-fill" style="font-size: 1.5rem;color: #17a2b8;"></i> <!-- People icon -->
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <a class="nav-link" href="#">Human Resources</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="platform-link">
+                                                <i class="bi bi-laptop-fill" style="font-size: 1.5rem;color: #28a745;"></i> <!-- Laptop icon -->
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <a class="nav-link" href="#">IT Support</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3"> <!-- Third Section -->
+                                    <h5>Industries</h5>
+                                    <div class="platform-link">
+                                        <i class="bi bi-cash-stack" style="font-size: 1.5rem;color: #17a2b8;"></i> <!-- Cash stack icon -->
+                                        <div>
+                                            <a class="nav-link" href="#">Finance</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link">
+                                        <i class="bi bi-cart-fill" style="font-size: 1.5rem;color: #ffc107;"></i> <!-- Shopping cart icon -->
+                                        <div>
+                                            <a class="nav-link" href="#">Retail</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link">
+                                        <i class="bi bi-heart-pulse" style="font-size: 1.5rem;color: #28a745;"></i> <!-- Heart pulse icon -->
+                                        <div>
+                                            <a class="nav-link" href="#">Healthcare</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Solutions</a>
+                    <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                        <div class="container">
+                            <div class="row">
+                                
+                                <div class="col-md-3"> <!-- First Section -->
+                                    <h5>Learn</h5>
+                                    <div class="platform-link">
+                                        <i class="bi bi-info-circle"style="color: #28a745;" ></i> <!-- Changed to info-circle -->
+                                        <div>
+                                            <a class="nav-link" href="#">About Us</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link"style="color: #ffc107;">
+                                        <i class="bi bi-megaphone" ></i> <!-- Changed to megaphone -->
+                                        <div>
+                                            <a class="nav-link" href="#">What's New</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link">
+                                        <i class="bi bi-journal-text" style="color: #17a2b8;"></i> <!-- Changed to journal-text -->
+                                        <div>
+                                            <a class="nav-link" href="#">Blog</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link"style="color: #28a745;">
+                                        <i class="bi bi-award" ></i> <!-- Changed to award -->
+                                        <div>
+                                            <a class="nav-link" href="#">Get Certified</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link" style="color: #17a2b8;">
+                                        <i class="bi bi-people" ></i> <!-- Changed to people -->
+                                        <div>
+                                            <a class="nav-link" href="#">Customer Stories</a>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div class="col-md-3"> <!-- Second Section -->
+                                    <h5>Industries</h5>
+                                    <div class="platform-link">
+                                        <i class="bi bi-hospital"style="color: #ffc107;" ></i> <!-- Changed to hospital -->
+                                        <div>
+                                            <a class="nav-link" href="#">Health Center</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link"style="color: #28a745;">
+                                        <i class="bi bi-headset" ></i> <!-- Changed to headset -->
+                                        <div>
+                                            <a class="nav-link" href="#">24/7 Support</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link"style="color: #ffc107;">
+                                        <i class="bi bi-handshake" ></i> <!-- Changed to handshake -->
+                                        <div>
+                                            <a class="nav-link" href="#">Partners</a>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div class="col-md-3"> <!-- Third Section -->
+                                    <h5>Build</h5>
+                                    <div class="platform-link"style="color: #17a2b8;">
+                                        <i class="bi bi-layers" ></i> <!-- Changed to layers -->
+                                        <div>
+                                            <a class="nav-link" href="#">Template Center</a>
+                                        </div>
+                                    </div>
+                                    <div class="platform-link"style=" color: #dc3545;">
+                                        <i class="bi bi-braces" ></i> <!-- Changed to braces (code brackets) -->
+                                        <div>
+                                            <a class="nav-link" href="#">App Development</a>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                            </div>
+                        </div>
+                    </ul>
+                </li>
+                
+                                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pricing' %}">Pricing</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a href="{% url 'signin' %}" class="btn btn-outline-primary me-2">Login</a>
+                <a href="{% url 'signup_new' %}" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

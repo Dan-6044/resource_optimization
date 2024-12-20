@@ -1,0 +1,73 @@
+.service-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* Optional: rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Box shadow */
+    transition: transform 0.3s ease; /* Animation for hover effect */
+    height: 350px; /* Ensure this is appropriate for your image */
+}
+
+.service-img {
+    width: 100%;
+    height: 100%; /* Ensure this fills the parent height */
+    object-fit: cover; /* Maintain aspect ratio while covering */
+}
+
+.service-details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    color: white;
+    padding: 20px; /* Increased spacing */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease; /* Animation for text visibility */
+    text-align: center; /* Center the text */
+}
+
+.service-item:hover .service-details {
+    opacity: 1; /* Make details visible on hover */
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 5px;
+  background-color: #bbb; /* Default dot color */
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+}
+.dot.active {
+  background-color: #717171; /* Active dot color */
+}
+.tick-icon {
+  color: #28a745; /* Green color for tick */
+}
+.custom-partners {
+  padding: 45px 0;
+  background-color: #f9f9f9; /* Optional background color */
+}
+
+.custom-partners .section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.custom-partners .section-title {
+  text-align: center;
+  color: #717171;
+}
+
+.custom-partners .partner-logo {
+  max-width: 70px; /* Set a maximum width for the logos */
+  height: auto;     /* Maintain the aspect ratio */
+  object-fit: contain; /* Ensure the logo fits well in its container */
+  opacity: 0.8;     /* Optional: slightly transparent for a softer look */
+  transition: opacity 0.3s; /* Smooth transition on hover */
+}
+
+.custom-partners .partner-logo:hover {
+  opacity: 1;       /* Full opacity on hover */
+}

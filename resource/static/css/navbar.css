@@ -1,0 +1,116 @@
+/* General Navbar Styles */
+.navbar {
+    padding: 1rem;
+    background-color: #f8f9fa; /* Light background for the navbar */
+    border-bottom: 1px solid #dee2e6; /* Subtle border */
+}
+
+/* Navbar Brand Logo */
+.navbar-brand img {
+    height: 40px; /* Consistent logo size */
+}
+
+/* Nav Links Styles */
+.nav-item {
+    position: relative; /* Required for dropdown positioning */
+}
+
+.nav-item .nav-link {
+    font-weight: 500; /* Medium weight for nav links */
+    color: #333; /* Dark text color */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.nav-item .nav-link:hover {
+    color: #007bff; /* Color change on hover */
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+    position: absolute; /* Position relative to navbar */
+    top: 50px; /* Adjust this value to match the navbar height */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the dropdown */
+    width: 75vw; /* Set dropdown width to 80% of the screen */
+    max-height: 60vh; /* Limit height for long content */
+    
+    z-index:o; /* Ensure dropdown appears above other content */
+    display: none; /* Initially hidden */
+    flex-direction: column; /* Stack dropdown items */
+}
+.vertical-line {
+    border-left: 2px solid black; /* Creates the vertical line */
+    height: 100px; /* Height of the line */
+    margin: 0 20px; /* Adjust spacing around the line */
+  }
+  
+
+/* Show dropdown on hover */
+.nav-item:hover .dropdown-menu {
+    display: flex; /* Show dropdown when hovered */
+}
+
+/* Dropdown Item Styles */
+.dropdown-item {
+    font-size: 14px; /* Uniform font size */
+    padding: 0.5rem 1rem; /* Standard padding */
+    color: #333; /* Dark text color */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1; /* Background color change on hover */
+}
+
+/* Vertical Divider in Dropdown */
+.vertical-divider {
+    border-left: 1px solid #dee2e6; /* Add subtle divider */
+    height: auto; /* Adjust height dynamically */
+    margin: 0 1rem; /* Maintain consistent spacing */
+}
+
+/* Platform Links in Dropdown */
+.platform-link {
+    display: flex; /* Flexbox for icon and text alignment */
+    align-items: center; /* Center vertically */
+    margin: 0 1rem; /* Spacing between links */
+}
+.product-card{
+    display: flex; /* Flexbox for icon and text alignment */
+    align-items: center; /* Center vertically */
+    margin: 0 1rem; /* Spacing between links */
+}
+
+/* Platform Icons */
+.platform-link i {
+    margin-right: 0.5rem; /* Spacing between icon and text */
+}
+
+/* Button Styles */
+.btn-outline-primary {
+    border: 2px solid #007bff; /* Border color for outline button */
+    color: #007bff; /* Text color */
+    transition: background-color 0.3s, color 0.3s ease; /* Smooth transitions */
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff; /* Background color on hover */
+    color: white; /* Text color on hover */
+}
+
+.btn-primary {
+    transition: background-color 0.3s, border-color 0.3s ease; /* Smooth transitions */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.5rem; /* Reduced padding for small screens */
+    }
+
+    .dropdown-menu {
+        width: 100%; /* Full-width dropdown on mobile */
+        left: 0; /* Align dropdown to the left */
+        transform: none; /* Reset centering */
+    }
+}

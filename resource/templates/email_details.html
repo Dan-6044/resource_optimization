@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Details</title>
+</head>
+<body>
+    <h1>Email Details</h1>
+    <p><strong>Subject:</strong> {{ email.subject }}</p>
+    <p><strong>Sent Time:</strong> {{ email.send_time }}</p>
+    <p><strong>Sent By:</strong> {{ email.sender }}</p>
+    <p><strong>Status:</strong> {{ email.get_status_display }}</p>
+    <p><strong>Body:</strong></p>
+    <p>{{ email.body }}</p>
+
+    <a href="{% url 'mass_emailing' %}">Back to Emails</a>
+</body>
+</html>

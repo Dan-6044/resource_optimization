@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar View</title>
+    <style>
+        .calendar {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .calendar th, .calendar td {
+            width: 14%;  /* 7 columns, so each takes about 14% of the width */
+            height: 120px;  /* Larger cell height */
+            border: 1px solid #ddd;
+            text-align: center;
+            vertical-align: top;
+            padding: 5px;
+            position: relative;
+        }
+        .header {
+    position: relative;
+}
+
+.left-corner {
+    position: absolute;
+    left: 10px;  /* Adjust the left position as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: none;
+    color: #007bff; /* Adjust the color if needed */
+}
+
+.left-corner i {
+    margin-right: 5px; /* Space between the arrow and text */
+}
+
+h2 {
+    text-align: center;
+    margin: 0;
+    flex-grow: 1;  /* Ensures the h2 stays centered */
+}
+
+        .task {
+            display: block;
+            margin-top: 5px;
+            background-color: #f39c12;
+            color: white;
+            padding: 3px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .today {
+            background-color: #f1c40f;  /* Highlight today's date */
+        }
+        .calendar-container {
+            width: 100%;
+            text-align: center;
+        }
+        .month-nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .month-nav .btn {
+    border-radius: 25px;  /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+    transition: all 0.3s ease;
+}
+
+.month-nav .btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);  /* Stronger shadow on hover */
+}
+
+    </style>
+</head>
+<body>
+    <div class="container mt-5">        
+        <div class="header d-flex justify-content-between align-items-center position-relative">
+            <a href="{% url 'my_work' user_id=user.id %}" class="btn btn-primary left-corner">
+                <i class="fas fa-arrow-left"></i> Go back
+            </a>
+            <h2 class="text-center mb-4 flex-grow-1">Calendar - {{ month_name }} {{ year }}</h2>
+        </div>
+        
+        
+    
+        <!-- Navigation Arrows -->
+        <div class="month-nav d-flex justify-content-between align-items-center mt-4">
+            <a href="?month={{ prev_month }}&year={{ prev_year }}" class="btn btn-primary btn-lg px-4 py-2">&#8592; <!-- Left arrow --></a>
+            <a href="?month={{ next_month }}&year={{ next_year }}" class="btn btn-primary btn-lg px-4 py-2">&#8594; <!-- Right arrow --></a>
+        </div>
+        
+        
+    
+        <!-- Calendar Table -->
+        <table class="calendar">
+          <thead>
+            <tr>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for week in calendar %}
+              <tr>
+                {% for day in week %}
+                  <td class="{% if day.day == today %}today{% endif %}">
+                    {% if day %}
+                      <strong>{{ day.day }}</strong>
+                      {% for task in day.tasks %}
+                        <div class="task">{{ task }}</div>
+                      {% endfor %}
+                    {% else %}
+                      &nbsp;
+                    {% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+</body>
+</html>
