@@ -235,7 +235,7 @@ class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     plan_name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    period = models.CharField(max_length=50)  # e.g., weeks, months
+    period = models.DateField()  # e.g., weeks, months
     expiry_date = models.DateField()
     payment_method = models.CharField(max_length=50)  # card or mpesa
     payment_status = models.CharField(max_length=50, default='Pending')  # Can be Pending, Completed, etc.
