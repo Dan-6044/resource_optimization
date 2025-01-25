@@ -86,9 +86,9 @@ class FocusArea(models.Model):
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Ensure this links to the user who created the project
     name = models.CharField(max_length=100)
-    duration = models.IntegerField()  # Duration of the project in days
+    duration = models.CharField(max_length=100)
     num_tasks = models.IntegerField()  # Number of tasks for the project
-    cost = models.DecimalField(max_digits=10, decimal_places=2)  # Cost of the project
+    cost = models.DecimalField(max_digits=25, decimal_places=2)  # Cost of the project
 
     def __str__(self):
         return self.name
