@@ -56,5 +56,7 @@ urlpatterns = [
    path('logout/', views.custom_logout, name='logout'),
     path('update-profile-picture/', views.update_profile_picture, name='update-profile-picture'),
     path('update-bio/', views.update_bio, name='update-bio'),
+
+     path('send-invite/', views.send_invite, name='send_invite'),
   
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

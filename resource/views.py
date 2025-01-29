@@ -147,7 +147,8 @@ def home_dashboard(request, user_id):
     user = get_object_or_404(User, id=user_id)  # Assuming you are using Django's User model
     return render(request, 'home_dashboard.html', {'user': user})
 
-####################VIEWING DASHBAORD WORKS##################################
+from django.utils import timezone
+
 def my_work(request, user_id):
     user = request.user  # Get the logged-in user
     projects = Project.objects.filter(user=user)
@@ -175,7 +176,8 @@ def my_work(request, user_id):
         resources = Resource.objects.filter(project=project)
         total_budget = sum(resource.cost for resource in resources)
 
-        # Calculate completed tasks and progress
+        # Calculate completed tasks and progress for the current project
+        tasks = Task.objects.filter(project=project)
         total_tasks = tasks.count()
         completed_tasks = tasks.filter(end_date__lte=timezone.now()).count()
         progress = (completed_tasks / total_tasks) * 100 if total_tasks > 0 else 0
@@ -184,13 +186,14 @@ def my_work(request, user_id):
             'project': project,
             'team_members': team_members,
             'total_budget': total_budget,
-            'progress': progress or 0, 
+            'progress': round(progress),  # Round progress to an integer
         })
     
     return render(request, 'mywork.html', {
         'projects_data': projects_data,
         'tasks_data': tasks_data  # Pass tasks data to the template
     })
+
 
 
 ################VISUALIZATION DASHBOARD###########################
@@ -905,3 +908,32 @@ def process_subscription_payment(request):
         return redirect(reverse('home_dashboard', args=[request.user.id]))  # Corrected to use request.user.id
 
     return redirect('subscription_page')  # In case of GET request
+
+
+from django.core.mail import EmailMessage
+from django.http import JsonResponse
+
+def send_invite(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        attachments = request.FILES.getlist('attachment')
+
+        # Prepare the email
+        mail = EmailMessage(
+            subject="Team Invitation",
+            body=message,
+            to=[email],
+        )
+
+        # Add attachments
+        for file in attachments:
+            mail.attach(file.name, file.read(), file.content_type)
+
+        try:
+            mail.send()
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request'})

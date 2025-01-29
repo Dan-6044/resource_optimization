@@ -210,7 +210,7 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Home</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">My work</li>
           </ol>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -323,7 +323,7 @@
                             <td>
                                 <div class="avatar-group mt-2">
                                     {% for member in data.team_members %}
-                                    <a href="#" onclick="showModal(event, '{{ member.id }}')" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Tompson">
+                                    <a href="#" onclick="showModal(event, '{{ member.id }}')" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ member.member_name }}">
                                       <img src="{{ member.profile_picture.url }}" alt="{{ member.member_name }}" class="circular-img">                              
                                     </a>                                    
                                     {% endfor %}
@@ -332,7 +332,7 @@
                             <td style="padding-left: 100px;">${{ data.total_budget }}</td>
                             <td style="padding-right: 10px;">
                               <div class="progress">
-                                <div class="progress-bar bg-gradient-info w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                                 <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="{{ data.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ data.progress }}%;"></div>    
                               </div>
                                 <span>{{ data.progress }}%</span>
                             </td>
@@ -464,47 +464,115 @@
   </div>
 </div>
 </div>
+
+<!-- Modal for Talking to Team Member -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="emailModalLabel">Message Team Member</h5>
+        <button type="button" class="btn-close text-primary" data-bs-dismiss="modal" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body">
+        <form id="messageForm" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="email" class="form-label">Recipient's Email</label>
+            <input type="email" class="form-control border border-primary" id="email" name="email" readonly required>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Your Message</label>
+            <textarea class="form-control border border-primary" id="message" name="message" rows="4" placeholder="Write your message here" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="attachment" class="form-label">Attach Files (Optional)</label>
+            <input type="file" class="form-control border border-primary" id="attachment" name="attachment" multiple>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('messageForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Create FormData to handle file attachments
+    const formData = new FormData(this);
+
+    // Post form data to Django view via AJAX
+    fetch('/send-invite/', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}'
+      },
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Email sent successfully!');
+         window.location.reload();
+      } else {
+        alert('Error sending invitation.');
+      }
+    })
+    .catch(error => console.error('Error:', error));
+
+    // Close modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('inviteModal'));
+    modal.hide();
+  });
+</script>
   <!--   Core JS Files   -->
   <script>
-    function showModal(event, memberId) {
-        const modal = document.getElementById('modal');
-        const modalContent = document.getElementById('modal-content');
-    
-        // Position the modal near the clicked member
-        const rect = event.target.getBoundingClientRect();
-        modal.style.top = `${rect.top + window.scrollY + 40}px`;
-        modal.style.left = `${rect.left + window.scrollX - 100}px`;
-    
-        // Fetch member details
-        fetch(`/api/member/${memberId}/`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch member details.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const memberProfile = `
-                    <img src="${data.profile_picture}" alt="${data.name}" class="modal-member-img">
-                    <h6>${data.name}</h6>
-                    <p><a href="mailto:${data.email}">${data.email}</a></p>
-                    <p>${data.role}</p>
-                `;
-                modalContent.innerHTML = memberProfile;
-                modal.style.display = 'block';
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                modalContent.innerHTML = '<p>Unable to load member details.</p>';
-                modal.style.display = 'block';
-            });
-    }
-    
-    function closeModal() {
-        const modal = document.getElementById('modal');
-        modal.style.display = 'none';
-    }
-    </script>
+      function showModal(event, memberId) {
+          const modal = document.getElementById('modal');
+          const modalContent = document.getElementById('modal-content');
+      
+          // Position the modal near the clicked member
+          const rect = event.target.getBoundingClientRect();
+          modal.style.top = `${rect.top + window.scrollY + 40}px`;
+          modal.style.left = `${rect.left + window.scrollX - 100}px`;
+      
+          // Fetch member details
+          fetch(`/api/member/${memberId}/`)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Failed to fetch member details.');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                    const memberProfile = `
+                        <img src="${data.profile_picture}" alt="${data.name}" class="modal-member-img">
+                        <h6>${data.name}</h6>
+                        <p><a href="#" data-bs-toggle="modal" data-bs-target="#emailModal" onclick="closeModal()">${data.email}</a></p>
+                        <p>${data.role}</p>
+                    `;
+                    modalContent.innerHTML = memberProfile;
+                    modal.style.display = 'block';
+
+                    // Populate the email field in the message modal
+                    const emailInput = document.getElementById('email');
+                    emailInput.value = data.email; // Set the email in the message modal form
+                })
+              .catch(error => {
+                  console.error('Error:', error);
+                  modalContent.innerHTML = '<p>Unable to load member details.</p>';
+                  modal.style.display = 'block';
+              });
+      }
+      
+      function closeModal() {
+          const modal = document.getElementById('modal');
+          modal.style.display = 'none'; // Hide the current modal
+      }
+  </script>
+
+
   <script src="{% static 'popper.min.js' %}" ></script>
   <script src="{% static 'bootstrap.min.js' %}" ></script>
   <script src="{% static 'perfect-scrollbar.min.js' %}" ></script>
