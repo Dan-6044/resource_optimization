@@ -1,148 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        .card {
-            background-color: #f8f9fa;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gauge Chart with Bootstrap</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-        .card-header {
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .card-body {
-            background-color: #ffffff;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .img-fluid {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .icon-link {
-            font-size: 1.5rem;
-            color: #007bff;
-            cursor: pointer;
-        }
-    </style>
+  <!-- JustGage CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/justgage@1.3.3/justgage.css" rel="stylesheet">
+  
+  <!-- JustGage and Raphael.js JS Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/justgage@1.3.3/justgage.js"></script>
 </head>
 <body>
-<div class="container mt-5">
+
+  <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg p-4">
-                <div class="card-header text-center bg-primary text-white">
-                    <h3>User Profile</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Profile Picture Section -->
-                    <div class="text-center mb-4">
-                        <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}https://via.placeholder.com/150{% endif %}" 
-                             class="img-fluid" alt="Profile Picture">
-                        <a href="#" class="icon-link" data-bs-toggle="modal" data-bs-target="#profilePictureModal">
-                            <i class="bi bi-pencil"></i> 
-                        </a>
-                        <h4 class="mt-3">{{ user.username }}</h4>
-                    </div>
-
-                    <!-- Profile Information -->
-                    <div class="mt-4">
-                        <h5><i class="bi bi-person-circle"></i> Profile Information</h5>
-                        <p><strong>Bio:</strong> {{ profile.bio|default:"No bio added yet." }}
-                            <a href="#" class="icon-link" data-bs-toggle="modal" data-bs-target="#bioModal">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                        </p>
-                        <p><strong>Email:</strong> {{ user.email }}</p>
-                    </div>
-
-                    <!-- Subscription Details -->
-                    <div class="mt-4">
-                        <h5><i class="bi bi-card-checklist"></i> Subscription Details</h5>
-                        {% if subscription %}
-                            <p><strong>Plan:</strong> {{ subscription.plan_name }}</p>
-                            <p><strong>Valid Until:</strong> {{ subscription.period }}</p>
-                        {% else %}
-                            <p>No active subscription found.</p>
-                        {% endif %}
-                    </div>
-
-                    <!-- Projects -->
-                    <div class="mt-4">
-                        <h5><i class="bi bi-briefcase"></i> Projects</h5>
-                        <ul>
-                            {% for project in projects %}
-                                <li>{{ project.name }}</li>
-                            {% empty %}
-                                <li>No projects found.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div class="col-12 col-md-6 text-center">
+        <h2>Performance Gauge</h2>
+        <div id="gauge" class="my-4"></div> <!-- Gauge Chart Placeholder -->
+        <p>Current Performance: <span id="gauge-value">75</span>%</p>
+      </div>
     </div>
-</div>
+  </div>
 
-<!-- Modal for Profile Picture -->
-<div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="profilePictureModalLabel">Upload Profile Picture</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{% url 'update-profile-picture' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="file" name="profile_picture" accept="image/*" class="form-control mb-3">
-                    <button type="submit" class="btn btn-primary">Upload</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+  <script>
+    // Create the gauge chart with thicker gauge and center needle
+    var g = new JustGage({
+      id: "gauge",               // The ID of the element to hold the gauge
+      value: 75,                 // Current value (can be dynamic)
+      min: 0,                    // Minimum value of the gauge
+      max: 100,                  // Maximum value of the gauge
+      title: "Performance",      // Title of the gauge
+      label: "%",                // Label for the value
+      gaugeWidthScale: 0.2,      // Increased thickness of the gauge bar (from 0.1 to 0.2)
+      pointer: true,             // Show the pointer
+      pointerOptions: {
+        offsetY: -10,            // Adjust the needle's position to start from the center
+      },
+      levelColors: [             // Color segments for different ranges
+        "#d9534f",  // Red for low values
+        "#f0ad4e",  // Yellow for middle values
+        "#5bc0de"   // Blue for high values
+      ]
+    });
+  </script>
 
-<!-- Modal for Bio -->
-<div class="modal fade" id="bioModal" tabindex="-1" aria-labelledby="bioModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="bioModalLabel">Update Bio</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{% url 'update-bio' %}">
-                    {% csrf_token %}
-                    <textarea name="bio" class="form-control mb-3" rows="4">{{ profile.bio }}</textarea>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

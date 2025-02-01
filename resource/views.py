@@ -814,7 +814,7 @@ def submit_email(request):
 def  billings_demo(request, user_id):
     # You can fetch user details or any related information here
     user = get_object_or_404(User, id=user_id)  # Assuming you are using Django's User model
-    return render(request, 'template.html', {'user': user})
+    return render(request, 'template1.html', {'user': user})
 
 
 ############DEMO##############
