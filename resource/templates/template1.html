@@ -7,18 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
      <!-- JustGage CSS -->
   <link href="https://cdn.jsdelivr.net/npm/justgage@1.3.3/justgage.css" rel="stylesheet">
-  
-  <!-- JustGage and Raphael.js JS Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/justgage@1.3.3/justgage.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Custom CSS for Labels -->
 <!-- Custom CSS to Make Donut Chart Smaller -->
 <style>
     #donutChart {
         width: 220px !important;  /* Adjust width */
-        height: 220px !important; /* Adjust height */
+        height: 222px !important; /* Adjust height */
         display: block; /* Prevent stretching */
         margin: auto;
     }
@@ -26,12 +20,12 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row gx-1">
             <!-- First Column -->
            <div class="col-lg-4">
-                <div class="row">
+                <div class="row gx-1">
                     <!-- Left Side: Project Selection, Status, Estimated Cost -->
-                    <div class="col-6">
+                    <div class="col-6 gy-0">
                         <div class="card p-2 mb-2 shadow">
                             <label style="font-size: 14px;"><strong>Project Name</strong></label>
                             <select class="form-select" style="font-size: 14px;">
@@ -47,13 +41,13 @@
                             </select>
                         </div>
                         <div class="card p-2 mb-2 shadow text-center text-secondary">
-                            <h6>Estimated Cost</h6>
-                            <p>$500,000</p>
+                            <h6 style=" margin-bottom: 15px;">Estimated Cost</h6>
+                            <p style="font-size: 18px; ">$500,000</p>
                         </div>
                     </div>
 
                     <!-- Right Side: Project Details & Budget Utilization -->
-                    <div class="col-6">
+                    <div class="col-6 gy-0">
                         <div class="d-flex flex-column gap-2">
                             <!-- Project Details (Scrollable) -->
                             <div class="card p-2 shadow flex-fill" style="height: 125px; overflow-y: auto;">
@@ -73,7 +67,7 @@
                 </div>
 
                 <!-- Speedometer Charts -->
-                <div class="row mt-3">
+                <div class="row gy-0 mt-0">
                     <div class="col-12">
                         <div class="card p-2 shadow">
                             <div class="d-flex justify-content-between">
@@ -81,7 +75,7 @@
                                 <div class="gauge-container" style="width: 40%; position: relative;">
                                     <h2 style="font-size: 16px;">Schedule Performance</h2>
                                     <div id="schedule-gauge" class="my-2"></div> <!-- Gauge Chart Placeholder -->
-                                    <p style="text-align: center; font-size: 1.2em; ">
+                                    <p style="text-align: center; font-size: 1em; ">
                                         Current Value: <span id="schedule-value">0</span>
                                     </p>
                                 </div>
@@ -90,7 +84,7 @@
                                 <div class="gauge-container" style="width: 40%; position: relative;">
                                     <h2 style="font-size: 18px;">Cost Performance</h2>
                                     <div id="cost-gauge" class="my-2"></div> <!-- Gauge Chart Placeholder -->
-                                    <p style="text-align: center; font-size: 1.2em;">
+                                    <p style="text-align: center; font-size: 1em;">
                                         Current Value: <span id="cost-value">0</span>
                                     </p>
                                 </div>
@@ -99,13 +93,13 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Second Column -->
-            <div class="col-lg-4">
+            <div class="col-lg-4 gx-1">
                 <div class="card p-3">
                     <canvas id="donutChart"></canvas>
                 </div>
-                <div class="card p-2 mt-3">
+                <div class="card p-2 gy-0 mt-2">
                     <table class="table">
                         <thead>
                             <tr style="font-size: 12px;">
@@ -127,119 +121,323 @@
             
             <!-- Third Column -->
             <div class="col-lg-4">
-                <div class="row">
+                <div class="row g-1"> <!-- Use g-1 to reduce the gap between columns -->
+                    <!-- Pie Chart Container -->
                     <div class="col-6">
-                        <canvas id="pieChart"></canvas>
+                        <div class="card p-2 shadow d-flex flex-column align-items-center" style="height: 250px; overflow: hidden;">
+                            <canvas id="pieChart" style="max-width: 100%; height: 150px;"></canvas>
+                            <div id="pieLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
+                        </div>
                     </div>
+
+                    <!-- Bar Chart Container -->
                     <div class="col-6">
-                        <canvas id="lineChart"></canvas>
+                        <div class="card p-2 shadow d-flex flex-column align-items-center" style="height: 250px; overflow: hidden;">
+                            <canvas id="barChart" style="max-width: 100%; height: 150px;"></canvas>
+                            <div id="pieLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="row mt-3">
+
+                <div class="row g-1 mt-2"> <!-- Adjust margin-top for spacing between rows -->
+                    <!-- Line Chart Container -->
                     <div class="col-12">
-                        <canvas id="barChart"></canvas>
+                        <div class="card p-2 shadow" style="height: 250px;">
+                            <canvas id="lineChart" style="max-width: 100%; height: 150px;"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>            
         </div>
     </div>
 
 
    <script src="https://cdn.jsdelivr.net/npm/justgage@1.3.0/justgage.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- JavaScript -->
-<script>
-    function createGauge(id, title, color, valueElement) {
-        return new JustGage({
-            id: id,                  // ID of the gauge container
-            value: 0,                // Start value at baseline
-            min: 0,                  // Minimum value
-            max: 2,                  // Maximum value
-            title: title,            // Title of the gauge
-            label: "",               // No percentage label
-            gaugeWidthScale: 1,    // Thicker gauge
-            pointer: true,           // Show pointer
-            pointerOptions: {
-                toplength: -20,       // Adjusts pointer length
-                bottomlength: 30,   // Positions needle at the labels
-                offsetY: 0         // Raises needle so it doesn't touch gauge
-            },
-            levelColors: [color],    // Single color for clarity
-            customSectors: [{        // Custom sector colors
-                color: color,
-                lo: 0, hi: 2
-            }],
-            decimals: 1,             // Show one decimal place in values
-            valueFontColor: "#000",  // Black text for clarity
-            labelFontColor: "#000",  // Black labels for better visibility
-            textRenderer: function(value) { // Update the value below the gauge
-                document.getElementById(valueElement).innerText = value.toFixed(1);
-                return value.toFixed(1); 
-            }
-        });
-    }
+    <!-- JavaScript -->
+    <script>
+        function createGauge(id, title, color, valueElement) {
+            return new JustGage({
+                id: id,                  // ID of the gauge container
+                value: 0,                // Start value at baseline
+                min: 0,                  // Minimum value
+                max: 2,                  // Maximum value
+                title: title,            // Title of the gauge
+                label: "",               // No percentage label
+                gaugeWidthScale: 1,    // Thicker gauge
+                pointer: true,           // Show pointer
+                pointerOptions: {
+                    toplength: -20,       // Adjusts pointer length
+                    bottomlength: 30,   // Positions needle at the labels
+                    offsetY: 0         // Raises needle so it doesn't touch gauge
+                },
+                levelColors: [color],    // Single color for clarity
+                customSectors: [{        // Custom sector colors
+                    color: color,
+                    lo: 0, hi: 2
+                }],
+                decimals: 1,             // Show one decimal place in values
+                valueFontColor: "#000",  // Black text for clarity
+                labelFontColor: "#000",  // Black labels for better visibility
+                textRenderer: function(value) { // Update the value below the gauge
+                    document.getElementById(valueElement).innerText = value.toFixed(1);
+                    return value.toFixed(1); 
+                }
+            });
+        }
 
-    // Initialize the gauges
-    var scheduleGauge = createGauge("schedule-gauge", "Schedule Performance", "#5bc0de", "schedule-value");
-    var costGauge = createGauge("cost-gauge", "Cost Performance", "#d9534f", "cost-value");
+        // Initialize the gauges
+        var scheduleGauge = createGauge("schedule-gauge", "Schedule Performance", "#5bc0de", "schedule-value");
+        var costGauge = createGauge("cost-gauge", "Cost Performance", "#d9534f", "cost-value");
 
-    // Example to update values dynamically
-    setTimeout(() => {
-        scheduleGauge.refresh(1.5);
-        costGauge.refresh(1.0);
-    }, 2000);
-</script>
+        // Example to update values dynamically
+        setTimeout(() => {
+            scheduleGauge.refresh(1.5);
+            costGauge.refresh(1.0);
+        }, 2000);
+    </script>
 
-<!-- JustGage and Raphael JS Library -->
-<script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
-
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel"></script>
 
     <script>
-        // Dummy charts initialization
-
-        const ctxPie = document.getElementById('pieChart').getContext('2d');
-        new Chart(ctxPie, { type: 'pie', data: { labels: ['A', 'B'], datasets: [{ data: [60, 40], backgroundColor: ['green', 'orange'] }] }});
-        
-        const ctxLine = document.getElementById('lineChart').getContext('2d');
-        new Chart(ctxLine, { type: 'line', data: { labels: ['Jan', 'Feb'], datasets: [{ data: [10, 20], borderColor: 'blue' }] }});
-        
+        // Bar chart with smaller bars, space between them, and different colors
         const ctxBar = document.getElementById('barChart').getContext('2d');
-        new Chart(ctxBar, { type: 'bar', data: { labels: ['X', 'Y'], datasets: [{ data: [30, 50], backgroundColor: ['purple', 'yellow'] }] }});
-    </script>
-    <!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    const ctxDonut = document.getElementById('donutChart').getContext('2d');
-
-    new Chart(ctxDonut, {
-        type: 'doughnut',
-        data: {
-            labels: ['Equipment', 'Foreign Labor', 'Labor', 'Materials', 'Subcontractors'],
-            datasets: [{
-                data: [200, 150, 120, 100, 110],
-                backgroundColor: ['red', 'blue', 'green', 'yellow', 'maroon']
-            }]
-        },
-        options: {
-            responsive: true, 
-            maintainAspectRatio: false, // Ensures resizing works
-            cutout: '65%', // Controls the inner hole size (adjustable)
-            plugins: {
-                legend: {
-                    display: false,
-                    position: 'bottom'
+        
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Project A', 'Project B', 'Project C', 'Project D', 'Project E'], // X-axis labels
+                datasets: [{
+                    label: 'Project Progress',
+                    data: [60, 70, 80, 90, 55], // Data values for each project
+                    backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#FF8C33'], // Different colors for each bar
+                    borderColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#FF8C33'], // Border color to match bars
+                    borderWidth: 1 // Border width for each bar
+                }]
+            },
+            options: {
+                responsive: true, // Make chart responsive to container size
+                scales: {
+                    x: {
+                        grid: {
+                            display: true, // Display grid lines on X-axis
+                            color: 'rgba(0, 0, 0, 0.1)' // Light color for grid lines
+                        },
+                        ticks: {
+                            font: {
+                                size: 10, // Smaller font size for X-axis labels
+                            }
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: true, // Display grid lines on Y-axis
+                            color: 'rgba(0, 0, 0, 0.1)' // Light color for grid lines
+                        },
+                        ticks: {
+                            beginAtZero: true, // Start Y-axis from 0
+                            stepSize: 10, // Step size for Y-axis ticks
+                        }
+                    }
+                },
+                barPercentage: 0.5, // Adjust bar width (smaller bars)
+                categoryPercentage: 0.7, // Adjust space between bars
+                plugins: {
+                    legend: {
+                        display: false // Hide legend if you don't want to display it
+                    }
                 }
             }
-        }
-    });
-</script>
+        });
+    </script>
+
+
+    <script>
+        const ctxDonut = document.getElementById('donutChart').getContext('2d');
+
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: ['Equipment', 'Foreign Labor', 'Labor', 'Materials', 'Subcontractors'],
+                datasets: [{
+                    data: [200, 150, 120, 100, 110],
+                    backgroundColor: ['red', 'blue', 'green', 'yellow', 'maroon']
+                }]
+            },
+            options: {
+                responsive: true, 
+                maintainAspectRatio: false, // Ensures resizing works
+                cutout: '65%', // Controls the inner hole size (adjustable)
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        // Get the pie chart canvas
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+
+        // Define labels, data, and colors
+        const pieLabels = ['Labor', 'Equipment', 'Materials', 'Subcontractors', 'Consultants'];
+        const pieData = [30, 25, 20, 15, 10]; // Percentage allocation
+        const pieColors = ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff'];
+
+        // Initialize the Pie Chart
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: pieLabels,
+                datasets: [{
+                    data: pieData,
+                    backgroundColor: pieColors
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false // Hide default legend
+                    }
+                }
+            }
+        });
+
+        // Custom Legend using Small Circles
+        const legendContainer = document.getElementById('pieLegend');
+        pieLabels.forEach((label, index) => {
+            let legendItem = document.createElement('div');
+            legendItem.classList.add('d-flex', 'align-items-center', 'mx-2');
+
+            // Create small color circle
+            let colorCircle = document.createElement('span');
+            colorCircle.style.width = '10px';
+            colorCircle.style.height = '20px';
+            colorCircle.style.backgroundColor = pieColors[index];
+            colorCircle.style.borderRadius = '50%';
+            colorCircle.style.display = 'inline-block';
+            colorCircle.style.marginRight = '5px';
+
+            // Create label text
+            let labelText = document.createElement('span');
+            labelText.innerText = label;
+            labelText.style.fontSize = '12px';
+
+            legendItem.appendChild(colorCircle);
+            legendItem.appendChild(labelText);
+            legendContainer.appendChild(legendItem);
+        });
+    </script>
+    <script>
+        // Get the line chart canvas
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+
+        // Define X-axis labels (time progression)
+        const timePeriods = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+
+        // Define Data for Multiple Projects
+        const lineChartData = {
+            labels: timePeriods,
+            datasets: [
+                {
+                    label: 'Project A',
+                    data: [10, 25, 40, 55, 70, 90], // Progress over months
+                    borderColor: '#ff6384',
+                    backgroundColor: 'transparent',  // No background (line chart)
+                    borderWidth: 2,                  // Line thickness
+                    tension: 0.3,                    // Smoother lines
+                    pointBackgroundColor: '#ff6384', // Points color
+                    pointRadius: 4                   // Point size
+                },
+                {
+                    label: 'Project B',
+                    data: [5, 15, 35, 50, 65, 80],
+                    borderColor: '#36a2eb',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointBackgroundColor: '#36a2eb',
+                    pointRadius: 4
+                },
+                {
+                    label: 'Project C',
+                    data: [8, 20, 38, 55, 72, 95],
+                    borderColor: '#ffce56',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointBackgroundColor: '#ffce56',
+                    pointRadius: 4
+                }
+            ]
+        };
+
+        // Create the Line Chart
+        new Chart(ctxLine, {
+            type: 'line',
+            data: lineChartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'index'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time Period'
+                        },
+                        grid: {
+                            drawBorder: true,  // Draw the border of the chart area
+                            drawOnChartArea: true, // Display grid lines on chart area
+                            color: 'rgba(0, 0, 0, 0.1)', // Grid line color
+                            lineWidth: 1, // Grid line width
+                        },
+                        ticks: {
+                            color: 'black', // Ticks color (axis labels)
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Progress (%)'
+                        },
+                        grid: {
+                            drawBorder: true,  // Draw the border of the chart area
+                            drawOnChartArea: true, // Display grid lines on chart area
+                            color: 'rgba(0, 0, 0, 0.1)', // Grid line color
+                            lineWidth: 1, // Grid line width
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + "%"; // Adds % symbol to values
+                            },
+                            color: 'black', // Ticks color (axis labels)
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
