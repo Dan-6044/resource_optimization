@@ -811,10 +811,63 @@ def submit_email(request):
 
 ############PROFILE############
 
-def  billings_demo(request, user_id):
-    # You can fetch user details or any related information here
-    user = get_object_or_404(User, id=user_id)  # Assuming you are using Django's User model
-    return render(request, 'template1.html', {'user': user})
+
+
+
+
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from .models import Project, Task
+from datetime import date
+
+def billings_demo(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    projects = Project.objects.filter(user=user)
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  # AJAX request
+        project_id = request.GET.get('project_id')
+        project = get_object_or_404(Project, id=project_id, user=user)
+
+        tasks = project.tasks.all()
+        all_tasks_completed = all(task.end_date <= date.today() for task in tasks) if tasks.exists() else False
+        status = "Completed" if all_tasks_completed else "Ongoing"
+
+        # Get the start date (start date of the first task) and end date (end date of the last task)
+        start_date = tasks.order_by("start_date").first().start_date if tasks.exists() else None
+        end_date = tasks.order_by("-end_date").first().end_date if tasks.exists() else None
+
+        
+
+        return JsonResponse({
+            "status": status,
+            "cost": project.cost,
+            "start_date": start_date.strftime('%d.%m.%Y') if start_date else "N/A",
+            "end_date": end_date.strftime('%d.%m.%Y') if end_date else "N/A",
+            "name": project.name,
+           
+        })
+
+    project_data = [
+        {
+            "id": project.id,
+            "name": project.name,
+        } for project in projects
+    ]
+
+    return render(request, 'template1.html', {
+        'user': user,
+        'projects': project_data
+    })
+
+
+
+
+
+
+
+
+
 
 
 ############DEMO##############
