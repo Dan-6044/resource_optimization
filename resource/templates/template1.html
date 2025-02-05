@@ -49,14 +49,15 @@
                         <div class="d-flex flex-column gap-2">
                             <!-- Project Details (Scrollable) -->
                             <div class="card p-2 shadow flex-fill" style="height: 125px; overflow-y: auto;">
-                                <p style="font-size: 13px; margin-bottom: 10px;"><strong>Project Name:</strong> <span id="projectName"></span></p>
-                                <p style="font-size: 12px; margin-bottom: 10px;"><strong>Project Start Date:</strong> <span id="startDate"></span></p>
-                                <p style="font-size: 12px; margin-bottom: 10px;"><strong>Project End Date:</strong> <span id="endDate"></span></p>
-                            </div>
+                                <p style="font-size: 13px; margin-bottom: 20px;"><strong>Project Name:</strong><span id="projectName"></span></p>
+                                <p style="font-size: 13px; margin-bottom: 20px;">Project</p>
+                                <p style="font-size: 12px; margin-bottom: 20px;"><strong>Project Start Date:</strong> <span id="startDate"></span></p>
+                                <p style="font-size: 12px; margin-bottom: 20px;"><strong> Project End Date:</strong> <span id="endDate"></span></p>
+                            </div>                            
                             <!-- Budget Utilization (Same Height) -->
                             <div class="card p-3 shadow flex-fill text-center text-secondary" style="height: 125px;">
-                            <h2 id="budgetUtilization"></h2>
                             <h6>Budget Utilization</h6>
+                            <h2 id="budgetUtilization"></h2>
                         </div>
                         </div>
                     </div>
@@ -72,7 +73,7 @@
                                     <h2 style="font-size: 16px;">Schedule Performance</h2>
                                     <div id="schedule-gauge" class="my-2"></div> <!-- Gauge Chart Placeholder -->
                                     <p style="text-align: center; font-size: 1em; ">
-                                        Current Value: <span id="schedule-value">0</span>
+                                        Current Value: <span id="schedulePerformance">0</span>
                                     </p>
                                 </div>
 
@@ -81,7 +82,7 @@
                                     <h2 style="font-size: 18px;">Cost Performance</h2>
                                     <div id="cost-gauge" class="my-2"></div> <!-- Gauge Chart Placeholder -->
                                     <p style="text-align: center; font-size: 1em;">
-                                        Current Value: <span id="cost-value">0</span>
+                                        Current Value: <span id="costPerformance">0</span>
                                     </p>
                                 </div>
                             </div>
@@ -157,6 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let startDateField = document.getElementById("startDate");
     let endDateField = document.getElementById("endDate");
     let budgetUtilizationField = document.getElementById("budgetUtilization");
+    let schedulePerformanceField = document.getElementById("schedulePerformance");
+    let costPerformanceField = document.getElementById("costPerformance");
 
     function updateProjectDetails(projectId) {
         fetch(`/billings_demo/{{ user.id }}?project_id=${projectId}`, {
@@ -170,7 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
             projectNameField.textContent = data.name;
             startDateField.textContent = data.start_date;
             endDateField.textContent = data.end_date;
-            budgetUtilizationField.textContent = data.budget_utilization;
+            budgetUtilizationField.textContent = `${data.budget_utilization}%`;
+            schedulePerformanceField.textContent = data.schedule_performance;
+            costPerformanceField.textContent = data.cost_performance;
 
             // Update other elements dynamically (if needed)
             // For example, updating another part of the page with this data
@@ -195,48 +200,62 @@ document.addEventListener("DOMContentLoaded", function () {
    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- JavaScript -->
-    <script>
-        function createGauge(id, title, color, valueElement) {
-            return new JustGage({
-                id: id,                  // ID of the gauge container
-                value: 0,                // Start value at baseline
-                min: 0,                  // Minimum value
-                max: 2,                  // Maximum value
-                title: title,            // Title of the gauge
-                label: "",               // No percentage label
-                gaugeWidthScale: 1,    // Thicker gauge
-                pointer: true,           // Show pointer
-                pointerOptions: {
-                    toplength: -20,       // Adjusts pointer length
-                    bottomlength: 30,   // Positions needle at the labels
-                    offsetY: 0         // Raises needle so it doesn't touch gauge
-                },
-                levelColors: [color],    // Single color for clarity
-                customSectors: [{        // Custom sector colors
-                    color: color,
-                    lo: 0, hi: 2
-                }],
-                decimals: 1,             // Show one decimal place in values
-                valueFontColor: "#000",  // Black text for clarity
-                labelFontColor: "#000",  // Black labels for better visibility
-                textRenderer: function(value) { // Update the value below the gauge
-                    document.getElementById(valueElement).innerText = value.toFixed(1);
-                    return value.toFixed(1); 
-                }
-            });
-        }
+<script>
+    function createGauge(id, title, color, valueElement) {
+        return new JustGage({
+            id: id,                  
+            value: 0,                
+            min: 0,                  
+            max: 2,                  
+            title: title,            
+            label: "",               
+            gaugeWidthScale: 1,      
+            pointer: true,           
+            pointerOptions: {
+                toplength: -20,       
+                bottomlength: 30,     
+                offsetY: 0            
+            },
+            levelColors: [color],    
+            customSectors: [{        
+                color: color,
+                lo: 0, hi: 2
+            }],
+            decimals: 1,             
+            valueFontColor: "#000",  
+            labelFontColor: "#000",  
+            textRenderer: function(value) { 
+                document.getElementById(valueElement).innerText = value.toFixed(1);
+                return value.toFixed(1); 
+            }
+        });
+    }
 
-        // Initialize the gauges
-        var scheduleGauge = createGauge("schedule-gauge", "Schedule Performance", "#5bc0de", "schedule-value");
-        var costGauge = createGauge("cost-gauge", "Cost Performance", "#d9534f", "cost-value");
+    // Initialize the gauges
+    var scheduleGauge = createGauge("schedule-gauge", "Schedule Performance", "#5bc0de", "schedulePerformance");
+    var costGauge = createGauge("cost-gauge", "Cost Performance", "#d9534f", "costPerformance");
 
-        // Example to update values dynamically
-        setTimeout(() => {
-            scheduleGauge.refresh(1.5);
-            costGauge.refresh(1.0);
-        }, 2000);
-    </script>
+    // Function to update the gauges based on span values
+    function updateGauges() {
+        const schedulePerformance = parseFloat(document.getElementById("schedulePerformance").innerText) || 0;
+        const costPerformance = parseFloat(document.getElementById("costPerformance").innerText) || 0;
+
+        scheduleGauge.refresh(schedulePerformance);
+        costGauge.refresh(costPerformance);
+    }
+
+    // Update gauges after initial delay
+    setTimeout(updateGauges, 500);
+
+    // Event Listener for Dropdown Selection
+    document.getElementById("projectDropdown").addEventListener("change", function () {
+        // Simulate fetching new values from backend when a project is selected
+        setTimeout(updateGauges, 500); // Update gauges after a short delay
+    });
+</script>
+
+
+
 
 
     <script>

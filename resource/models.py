@@ -101,6 +101,9 @@ class Task(models.Model):
     end_date = models.DateField()  # Task end date
     resources_required = models.CharField(max_length=255)  # Resources required for the task
     dependencies = models.TextField(blank=True, null=True)  # Optional field for task dependencies
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    priority = models.CharField(max_length=10, choices=[('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')])
+    
 
     def __str__(self):
         return self.name

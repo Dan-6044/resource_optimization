@@ -46,7 +46,7 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('name',)  # Optional: Allow searching by project name
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('name', 'project', 'start_date', 'end_date', 'resources_required', 'dependencies')
+    list_display = ('name', 'project', 'start_date', 'end_date', 'resources_required', 'dependencies', 'cost', 'priority')
     list_filter = ('project', 'start_date', 'end_date')  # Valid filters for Task model
     search_fields = ('name', 'project__name')  # Search by task name and related project name
 

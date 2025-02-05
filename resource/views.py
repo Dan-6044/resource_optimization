@@ -526,6 +526,8 @@ def add_task(request, user_id):
         end_date = request.POST.get('end_date')
         resources = request.POST.get('resources')
         dependencies = request.POST.get('dependencies')
+        task_cost = request.POST['task_cost']
+        task_priority = request.POST['task_priority']
 
         # Ensure the project exists for the logged-in user
         try:
@@ -541,7 +543,9 @@ def add_task(request, user_id):
             start_date=start_date,
             end_date=end_date,
             resources_required=resources,
-            dependencies=dependencies
+            dependencies=dependencies,
+            cost=task_cost,
+            priority=task_priority
         )
 
         return redirect('create_project', user_id=user_id)  # Redirect to project creation page
@@ -830,6 +834,8 @@ def billings_demo(request, user_id):
         project = get_object_or_404(Project, id=project_id, user=user)
 
         tasks = project.tasks.all()
+
+        # Calculate if all tasks are completed
         all_tasks_completed = all(task.end_date <= date.today() for task in tasks) if tasks.exists() else False
         status = "Completed" if all_tasks_completed else "Ongoing"
 
@@ -837,7 +843,22 @@ def billings_demo(request, user_id):
         start_date = tasks.order_by("start_date").first().start_date if tasks.exists() else None
         end_date = tasks.order_by("-end_date").first().end_date if tasks.exists() else None
 
-        
+        # Calculate the total task cost and completed task cost for budget utilization
+        total_task_cost = sum(task.cost for task in tasks)
+        completed_task_cost = sum(task.cost for task in tasks if task.end_date <= date.today())
+        budget_utilization = (completed_task_cost / total_task_cost * 100) if total_task_cost else 0  # Avoid division by zero
+
+        # Calculate schedule performance
+        total_tasks = tasks.count()
+        completed_tasks = sum(1 for task in tasks if task.end_date <= date.today())
+        schedule_performance = (completed_tasks / total_tasks * 2) if total_tasks else 0  # Multiplied by 2 for the gauge scale
+
+        # Calculate cost performance
+        cost_performance = (completed_task_cost / total_task_cost * 2) if total_task_cost else 0  # Multiplied by 2 for the gauge scale
+
+        # Log the values to the Django terminal (server console)
+        print(f"Schedule Performance: {schedule_performance}")
+        print(f"Cost Performance: {cost_performance}")
 
         return JsonResponse({
             "status": status,
@@ -845,7 +866,9 @@ def billings_demo(request, user_id):
             "start_date": start_date.strftime('%d.%m.%Y') if start_date else "N/A",
             "end_date": end_date.strftime('%d.%m.%Y') if end_date else "N/A",
             "name": project.name,
-           
+            "budget_utilization": round(budget_utilization, 2),  # Round to two decimal places
+            "schedule_performance": round(schedule_performance, 2),
+            "cost_performance": round(cost_performance, 2),
         })
 
     project_data = [
@@ -859,6 +882,7 @@ def billings_demo(request, user_id):
         'user': user,
         'projects': project_data
     })
+
 
 
 

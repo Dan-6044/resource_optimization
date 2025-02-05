@@ -292,54 +292,69 @@
             </div>
         </div>
 
-        <!-- Task Form -->
-        <div class="card shadow-lg">
-            <div class="card-header bg-secondary text-white">
-                <h4>Add Tasks to Project</h4>
-            </div>
-            <div class="card-body">
-                <form method="post" action="{% url 'add_task' user_id=user_id %}">
-                    {% csrf_token %}
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="id_project" class="form-label">Select Project</label>
-                            <select class="form-select" id="id_project" name="project" required>
-                                <option value="" disabled selected>-- Select Project --</option>
-                                {% for project in projects %}
-                                <option value="{{ project.id }}">{{ project.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="id_task_name" class="form-label">Task Name</label>
-                            <input type="text" class="form-control" id="id_task_name" name="task_name" required>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="id_start_date" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="id_start_date" name="start_date" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="id_end_date" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="id_end_date" name="end_date" required>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="id_resources" class="form-label">Resources Required</label>
-                            <input type="text" class="form-control" id="id_resources" name="resources" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="id_dependencies" class="form-label">Task Dependencies</label>
-                            <input type="text" class="form-control" id="id_dependencies" name="dependencies">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success w-100">Add Task</button>
-                </form>
-            </div>
-        </div>
+       <!-- Task Form -->
+<div class="card shadow-lg">
+    <div class="card-header bg-secondary text-white">
+        <h4>Add Tasks to Project</h4>
     </div>
+    <div class="card-body">
+        <form method="post" action="{% url 'add_task' user_id=user_id %}">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="id_project" class="form-label">Select Project</label>
+                    <select class="form-select" id="id_project" name="project" required>
+                        <option value="" disabled selected>-- Select Project --</option>
+                        {% for project in projects %}
+                        <option value="{{ project.id }}">{{ project.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_task_name" class="form-label">Task Name</label>
+                    <input type="text" class="form-control" id="id_task_name" name="task_name" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="id_start_date" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="id_start_date" name="start_date" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_end_date" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="id_end_date" name="end_date" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="id_resources" class="form-label">Resources Required</label>
+                    <input type="text" class="form-control" id="id_resources" name="resources" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_dependencies" class="form-label">Task Dependencies</label>
+                    <input type="text" class="form-control" id="id_dependencies" name="dependencies">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="id_task_cost" class="form-label">Task Cost</label>
+                    <input type="number" class="form-control" id="id_task_cost" name="task_cost" step="0.01" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="id_task_priority" class="form-label">Task Priority</label>
+                    <select class="form-select" id="id_task_priority" name="task_priority" required>
+                        <option value="" disabled selected>-- Select Priority --</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Add Task</button>
+        </form>
+    </div>
+</div>
+
     
       
     <footer class="footer py-4  ">
