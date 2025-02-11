@@ -58,5 +58,6 @@ urlpatterns = [
     path('update-bio/', views.update_bio, name='update-bio'),
 
      path('send-invite/', views.send_invite, name='send_invite'),
+     
   
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

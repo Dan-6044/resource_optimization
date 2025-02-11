@@ -97,7 +97,7 @@
                     <canvas id="donutChart"></canvas>
                 </div>
                 <div class="card p-2 gy-0 mt-2">
-                    <table class="table">
+                    <table id="resourceTable" class="table">
                         <thead>
                             <tr style="font-size: 12px;">
                                 <th>Color</th>
@@ -106,14 +106,11 @@
                             </tr>
                         </thead>
                         <tbody style="font-size: 12px;">
-                            <tr><td style="background-color: red;"></td><td>Equipment</td><td>$200,000</td></tr>
-                            <tr><td style="background-color: blue;"></td><td>Foreign Labor</td><td>$150,000</td></tr>
-                            <tr><td style="background-color: green;"></td><td>Labor</td><td>$120,000</td></tr>
-                            <tr><td style="background-color: yellow;"></td><td>Materials</td><td>$100,000</td></tr>
-                            <tr><td style="background-color: maroon;"></td><td>Subcontractors</td><td>$110,000</td></tr>
+                            <!-- Rows will be dynamically added here -->
                         </tbody>
                     </table>
                 </div>
+
             </div>
             
             <!-- Third Column -->
@@ -122,8 +119,8 @@
                     <!-- Pie Chart Container -->
                     <div class="col-6">
                         <div class="card p-2 shadow d-flex flex-column align-items-center" style="height: 250px; overflow: hidden;">
-                            <canvas id="pieChart" style="max-width: 100%; height: 150px;"></canvas>
-                            <div id="pieLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
+                            <canvas id="taskPieChart" style="max-width: 100%; height: 150px;"></canvas>
+                            <div id="taskPieLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
                         </div>
                     </div>
 
@@ -131,7 +128,7 @@
                     <div class="col-6">
                         <div class="card p-2 shadow d-flex flex-column align-items-center" style="height: 250px; overflow: hidden;">
                             <canvas id="barChart" style="max-width: 100%; height: 150px;"></canvas>
-                            <div id="pieLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
+                            <div id="barLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
                         </div>
                     </div>
                 </div>
@@ -256,141 +253,324 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+<script>
+var userId = "{{ user.id }}"; 
+let barChart;
 
+function updateBarChart(projectId) {
+    fetch(`/billings_demo/${userId}/?project_id=${projectId}`, { 
+        headers: { "X-Requested-With": "XMLHttpRequest" } 
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("📊 Received Bar Chart Data:", data); // Debugging
 
-    <script>
-        // Bar chart with smaller bars, space between them, and different colors
-        const ctxBar = document.getElementById('barChart').getContext('2d');
+        if (data.task_counts) {
+            renderBarChart(data.task_counts);
+        } else {
+            console.error("❌ No task_counts received!");
+        }
+    })
+    .catch(error => console.error("❌ Error fetching Bar Chart data:", error));
+}
+
+function renderBarChart(taskCounts) {
+    console.log("📊 Updating Bar Chart with:", taskCounts); // Debugging
+
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+
+    if (!ctxBar) {
+        console.error("❌ Canvas not found!");
+        return;
+    }
+
+    // Define labels and values
+    const labels = [ "Completed", "In Progress", "Pending"];
+    const values = [
         
-        new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: ['Project A', 'Project B', 'Project C', 'Project D', 'Project E'], // X-axis labels
-                datasets: [{
-                    label: 'Project Progress',
-                    data: [60, 70, 80, 90, 55], // Data values for each project
-                    backgroundColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#FF8C33'], // Different colors for each bar
-                    borderColor: ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#FF8C33'], // Border color to match bars
-                    borderWidth: 1 // Border width for each bar
-                }]
-            },
-            options: {
-                responsive: true, // Make chart responsive to container size
-                scales: {
-                    x: {
-                        grid: {
-                            display: true, // Display grid lines on X-axis
-                            color: 'rgba(0, 0, 0, 0.1)' // Light color for grid lines
-                        },
-                        ticks: {
-                            font: {
-                                size: 10, // Smaller font size for X-axis labels
-                            }
-                        }
-                    },
-                    y: {
-                        grid: {
-                            display: true, // Display grid lines on Y-axis
-                            color: 'rgba(0, 0, 0, 0.1)' // Light color for grid lines
-                        },
-                        ticks: {
-                            beginAtZero: true, // Start Y-axis from 0
-                            stepSize: 10, // Step size for Y-axis ticks
-                        }
-                    }
+        taskCounts.completed || 0,
+        taskCounts.in_progress || 0,
+        taskCounts.pending || 0
+    ];
+    const backgroundColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#FF8C33', '#6A33FF'];
+
+    // Destroy previous chart before creating a new one
+    if (barChart) {
+        barChart.destroy();
+    }
+
+    barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Task Distribution',
+                data: values,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { display: true, color: 'rgba(0, 0, 0, 0.1)' },
+                    ticks: { font: { size: 10 } }
                 },
-                barPercentage: 0.5, // Adjust bar width (smaller bars)
-                categoryPercentage: 0.7, // Adjust space between bars
-                plugins: {
-                    legend: {
-                        display: false // Hide legend if you don't want to display it
-                    }
+                y: {
+                    grid: { display: true, color: 'rgba(0, 0, 0, 0.1)' },
+                    ticks: { beginAtZero: true, stepSize: 1 }
                 }
-            }
-        });
-    </script>
-
-
-    <script>
-        const ctxDonut = document.getElementById('donutChart').getContext('2d');
-
-        new Chart(ctxDonut, {
-            type: 'doughnut',
-            data: {
-                labels: ['Equipment', 'Foreign Labor', 'Labor', 'Materials', 'Subcontractors'],
-                datasets: [{
-                    data: [200, 150, 120, 100, 110],
-                    backgroundColor: ['red', 'blue', 'green', 'yellow', 'maroon']
-                }]
             },
-            options: {
-                responsive: true, 
-                maintainAspectRatio: false, // Ensures resizing works
-                cutout: '65%', // Controls the inner hole size (adjustable)
-                plugins: {
-                    legend: {
-                        display: false,
-                        position: 'bottom'
-                    }
+            barPercentage: 0.5,
+            categoryPercentage: 0.7,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    console.log("✅ Bar Chart Updated!"); // Debugging
+}
+
+// Listen for project dropdown changes
+document.getElementById("projectDropdown").addEventListener("change", function () {
+    updateBarChart(this.value);
+});
+
+// Load Bar Chart when page refreshes
+window.onload = function() {
+    let firstProject = document.getElementById("projectDropdown").value;
+    if (firstProject) {
+        updateBarChart(firstProject);
+    }
+};
+</script>
+
+
+
+
+<script>
+var userId = "{{ user.id }}";
+let donutChart;
+
+function updateDashboard(projectId) {
+    fetch(`/billings_demo/${userId}/?project_id=${projectId}`, { 
+        headers: { "X-Requested-With": "XMLHttpRequest" } 
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Received Data:", data); // Debugging - Check console
+
+        document.getElementById("projectName").innerText = data.name;
+        document.getElementById("budgetUtilization").innerText = data.budget_utilization + "%";
+        document.getElementById("schedulePerformance").innerText = data.schedule_performance;
+        document.getElementById("costPerformance").innerText = data.cost_performance;
+
+        if (data.resources) {
+            updateDonutChart(data.resources);
+            updateResourceTable(data.resources);
+        } else {
+            console.error("No resource data received!");
+        }
+    })
+    .catch(error => console.error("Error fetching data:", error));
+}
+
+function updateDonutChart(resourceData) {
+    console.log("Resource Data for Chart:", resourceData); // Debugging
+
+    const ctx = document.getElementById('donutChart').getContext('2d');
+
+    if (!ctx) {
+        console.error("Canvas not found!");
+        return;
+    }
+
+    if (donutChart) {
+        donutChart.destroy(); // Destroy previous chart before re-creating
+    }
+
+    donutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: resourceData.labels,
+            datasets: [{
+                data: resourceData.costs,
+                backgroundColor: resourceData.colors, // Use dynamically generated colors
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '65%',
+            plugins: {
+                legend: {
+                    display: false // Hide default legend to show it in table
                 }
             }
-        });
-    </script>
-    <script>
-        // Get the pie chart canvas
-        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        }
+    });
 
-        // Define labels, data, and colors
-        const pieLabels = ['Labor', 'Equipment', 'Materials', 'Subcontractors', 'Consultants'];
-        const pieData = [30, 25, 20, 15, 10]; // Percentage allocation
-        const pieColors = ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff'];
+    console.log("Chart Updated!"); // Debugging
+}
 
-        // Initialize the Pie Chart
-        new Chart(ctxPie, {
+function updateResourceTable(resourceData) {
+    const tableBody = document.querySelector("#resourceTable tbody");
+    tableBody.innerHTML = ""; // Clear existing table rows
+
+    resourceData.labels.forEach((label, index) => {
+        let row = `<tr>
+            <td style="background-color: ${resourceData.colors[index]}; width: 20px;"></td>
+            <td>${label}</td>
+            <td>$${resourceData.costs[index].toLocaleString()}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+    });
+
+    console.log("Table Updated!"); // Debugging
+}
+
+document.getElementById("projectDropdown").addEventListener("change", function () {
+    updateDashboard(this.value);
+});
+
+window.onload = function() {
+    let firstProject = document.getElementById("projectDropdown").value;
+    if (firstProject) {
+        updateDashboard(firstProject);
+    }
+};
+
+ </script>
+
+
+
+<script>
+    let taskPieChart = null;
+    var userId = "{{ user.id }}";  
+
+    function fetchTaskData(projectId) {
+        if (!projectId) {
+            console.warn("⚠️ No project ID selected!");
+            return;
+        }
+
+        fetch(`/billings_demo/${userId}/?project_id=${projectId}`, {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ Received task data:", data);
+
+            if (data.tasks && data.tasks.labels.length > 0) {
+                updateTaskPieChart(data.tasks);
+            } else {
+                console.warn("⚠️ No task data available!");
+                clearTaskChart();
+            }
+        })
+        .catch(error => console.error("❌ Error fetching task data:", error));
+    }
+
+    function updateTaskPieChart(taskData) {
+        const ctxPie = document.getElementById('taskPieChart').getContext('2d');
+
+        if (taskPieChart) {
+            taskPieChart.destroy();
+        }
+
+        taskPieChart = new Chart(ctxPie, {
             type: 'pie',
             data: {
-                labels: pieLabels,
+                labels: taskData.labels,
                 datasets: [{
-                    data: pieData,
-                    backgroundColor: pieColors
+                    data: taskData.days,
+                    backgroundColor: taskData.colors, 
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false // Hide default legend
-                    }
+                    legend: { display: false }
                 }
             }
         });
 
-        // Custom Legend using Small Circles
-        const legendContainer = document.getElementById('pieLegend');
-        pieLabels.forEach((label, index) => {
+        updateTaskLegend(taskData.labels, taskData.colors);
+    }
+
+    function updateTaskLegend(labels, colors) {
+        const legendContainer = document.getElementById('taskPieLegend');
+
+        if (!legendContainer) {
+            console.error("❌ taskPieLegend container not found in HTML!");
+            return;
+        }
+
+        legendContainer.innerHTML = "";
+
+        labels.forEach((label, index) => {
             let legendItem = document.createElement('div');
             legendItem.classList.add('d-flex', 'align-items-center', 'mx-2');
 
-            // Create small color circle
             let colorCircle = document.createElement('span');
-            colorCircle.style.width = '10px';
-            colorCircle.style.height = '20px';
-            colorCircle.style.backgroundColor = pieColors[index];
+            colorCircle.style.width = '12px';
+            colorCircle.style.height = '12px';
+            colorCircle.style.backgroundColor = colors[index];
             colorCircle.style.borderRadius = '50%';
             colorCircle.style.display = 'inline-block';
-            colorCircle.style.marginRight = '5px';
+            colorCircle.style.marginRight = '8px';
 
-            // Create label text
             let labelText = document.createElement('span');
             labelText.innerText = label;
-            labelText.style.fontSize = '12px';
+            labelText.style.fontSize = '14px';
 
             legendItem.appendChild(colorCircle);
             legendItem.appendChild(labelText);
             legendContainer.appendChild(legendItem);
         });
-    </script>
+    }
+
+    function clearTaskChart() {
+        if (taskPieChart) {
+            taskPieChart.destroy();
+            taskPieChart = null;
+        }
+        const legendContainer = document.getElementById('taskPieLegend');
+        if (legendContainer) {
+            legendContainer.innerHTML = "<p>No task data available.</p>";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const projectDropdown = document.getElementById('projectDropdown');
+
+        if (projectDropdown) {
+            // Load the first project on page load
+            let firstProject = projectDropdown.value;
+            if (firstProject) {
+                fetchTaskData(firstProject);
+            }
+
+            projectDropdown.addEventListener('change', function () {
+                fetchTaskData(this.value);
+            });
+        } else {
+            console.error("❌ projectDropdown element not found!");
+        }
+    });
+</script>
+
+
+
+
+
+
     <script>
         // Get the line chart canvas
         const ctxLine = document.getElementById('lineChart').getContext('2d');

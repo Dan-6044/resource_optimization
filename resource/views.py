@@ -815,14 +815,14 @@ def submit_email(request):
 
 ############PROFILE############
 
+import random
+
+def generate_random_colors(n):
+    """Generate n random hex colors"""
+    return [f'#{random.randint(0, 0xFFFFFF):06x}' for _ in range(n)]
 
 
 
-
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.models import User
-from django.http import JsonResponse
-from .models import Project, Task
 from datetime import date
 
 def billings_demo(request, user_id):
@@ -856,7 +856,37 @@ def billings_demo(request, user_id):
         # Calculate cost performance
         cost_performance = (completed_task_cost / total_task_cost * 2) if total_task_cost else 0  # Multiplied by 2 for the gauge scale
 
-        # Log the values to the Django terminal (server console)
+        # Task Priorities Count
+        high_priority_count = tasks.filter(priority="high").count()
+        medium_priority_count = tasks.filter(priority="medium").count()
+        low_priority_count = tasks.filter(priority="low").count()
+
+        # Task Status Count
+        completed_count = tasks.filter(end_date__lte=date.today()).count()
+        in_progress_count = tasks.filter(start_date__lte=date.today(), end_date__gt=date.today()).count()
+        pending_count = tasks.filter(start_date__gt=date.today()).count()
+
+        # Fetch resources and dynamically generate colors
+        resources = Resource.objects.filter(project=project)
+        colors = generate_random_colors(len(resources))
+
+        resource_data = {
+            "labels": [resource.resource_name for resource in resources],
+            "costs": [resource.cost for resource in resources],
+            "colors": colors
+        }
+
+        # Generate random colors for tasks
+        task_colors = generate_random_colors(len(tasks))
+
+        # Prepare task data
+        task_data = {
+            "labels": [task.name for task in tasks],
+            "days": [(task.end_date - task.start_date).days if task.start_date and task.end_date else 0 for task in tasks],
+            "colors": task_colors
+        }
+
+        # Log values to the Django terminal (server console)
         print(f"Schedule Performance: {schedule_performance}")
         print(f"Cost Performance: {cost_performance}")
 
@@ -869,6 +899,16 @@ def billings_demo(request, user_id):
             "budget_utilization": round(budget_utilization, 2),  # Round to two decimal places
             "schedule_performance": round(schedule_performance, 2),
             "cost_performance": round(cost_performance, 2),
+            "resources": resource_data,
+            "tasks": task_data,  # Include task names and durations
+            "task_counts": {
+                "high_priority": high_priority_count,
+                "medium_priority": medium_priority_count,
+                "low_priority": low_priority_count,
+                "completed": completed_count,
+                "in_progress": in_progress_count,
+                "pending": pending_count,
+            }
         })
 
     project_data = [
@@ -882,9 +922,6 @@ def billings_demo(request, user_id):
         'user': user,
         'projects': project_data
     })
-
-
-
 
 
 
