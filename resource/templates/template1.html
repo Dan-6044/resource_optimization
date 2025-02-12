@@ -8,15 +8,15 @@
      <!-- JustGage CSS -->
   <link href="https://cdn.jsdelivr.net/npm/justgage@1.3.3/justgage.css" rel="stylesheet">
 
-<!-- Custom CSS to Make Donut Chart Smaller -->
-<style>
-    #donutChart {
-        width: 220px !important;  /* Adjust width */
-        height: 222px !important; /* Adjust height */
-        display: block; /* Prevent stretching */
-        margin: auto;
-    }
-</style>
+  <!-- Custom CSS to Make Donut Chart Smaller -->
+    <style>
+        #donutChart {
+            width: 220px !important;  /* Adjust width */
+            height: 222px !important; /* Adjust height */
+            display: block; /* Prevent stretching */
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -97,20 +97,21 @@
                     <canvas id="donutChart"></canvas>
                 </div>
                 <div class="card p-2 gy-0 mt-2">
-                    <table id="resourceTable" class="table">
-                        <thead>
-                            <tr style="font-size: 12px;">
-                                <th>Color</th>
-                                <th>Resource</th>
-                                <th>Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-size: 12px;">
-                            <!-- Rows will be dynamically added here -->
-                        </tbody>
-                    </table>
+                    <div style="max-height: 230px; overflow-y: auto;">
+                        <table id="resourceTable" class="table">
+                            <thead>
+                                <tr style="font-size: 12px;">
+                                    <th>Color</th>
+                                    <th>Resource</th>
+                                    <th>Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 12px;">
+                                <!-- Rows will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
             </div>
             
             <!-- Third Column -->
@@ -145,58 +146,58 @@
         </div>
     </div>
 
-
+ <!-- Project Details Script -->
+  <script src="https://cdn.jsdelivr.net/npm/justgage@1.3.0/justgage.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    let dropdown = document.getElementById("projectDropdown");
-    let statusField = document.getElementById("projectStatus");
-    let costField = document.getElementById("estimatedCost");
-    let projectNameField = document.getElementById("projectName");
-    let startDateField = document.getElementById("startDate");
-    let endDateField = document.getElementById("endDate");
-    let budgetUtilizationField = document.getElementById("budgetUtilization");
-    let schedulePerformanceField = document.getElementById("schedulePerformance");
-    let costPerformanceField = document.getElementById("costPerformance");
+    document.addEventListener("DOMContentLoaded", function () {
+        let dropdown = document.getElementById("projectDropdown");
+        let statusField = document.getElementById("projectStatus");
+        let costField = document.getElementById("estimatedCost");
+        let projectNameField = document.getElementById("projectName");
+        let startDateField = document.getElementById("startDate");
+        let endDateField = document.getElementById("endDate");
+        let budgetUtilizationField = document.getElementById("budgetUtilization");
+        let schedulePerformanceField = document.getElementById("schedulePerformance");
+        let costPerformanceField = document.getElementById("costPerformance");
 
-    function updateProjectDetails(projectId) {
-        fetch(`/billings_demo/{{ user.id }}?project_id=${projectId}`, {
-            headers: { "X-Requested-With": "XMLHttpRequest" }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Update project details dynamically
-            statusField.value = data.status;
-            costField.textContent = `$${data.cost}`;
-            projectNameField.textContent = data.name;
-            startDateField.textContent = data.start_date;
-            endDateField.textContent = data.end_date;
-            budgetUtilizationField.textContent = `${data.budget_utilization}%`;
-            schedulePerformanceField.textContent = data.schedule_performance;
-            costPerformanceField.textContent = data.cost_performance;
+        function updateProjectDetails(projectId) {
+            fetch(`/billings_demo/{{ user.id }}?project_id=${projectId}`, {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update project details dynamically
+                statusField.value = data.status;
+                costField.textContent = `$${data.cost}`;
+                projectNameField.textContent = data.name;
+                startDateField.textContent = data.start_date;
+                endDateField.textContent = data.end_date;
+                budgetUtilizationField.textContent = `${data.budget_utilization}%`;
+                schedulePerformanceField.textContent = data.schedule_performance;
+                costPerformanceField.textContent = data.cost_performance;
 
-            // Update other elements dynamically (if needed)
-            // For example, updating another part of the page with this data
-            // This is where you can extend functionality to update other components
-            // or use this data elsewhere on the page.
+                // Update other elements dynamically (if needed)
+                // For example, updating another part of the page with this data
+                // This is where you can extend functionality to update other components
+                // or use this data elsewhere on the page.
+            });
+        }
+
+        dropdown.addEventListener("change", function () {
+            let selectedProjectId = dropdown.value;
+            updateProjectDetails(selectedProjectId);
         });
-    }
 
-    dropdown.addEventListener("change", function () {
-        let selectedProjectId = dropdown.value;
-        updateProjectDetails(selectedProjectId);
+        // Load initial project details on page load (default project)
+        if (dropdown.value) {
+            updateProjectDetails(dropdown.value);
+        }
     });
-
-    // Load initial project details on page load (default project)
-    if (dropdown.value) {
-        updateProjectDetails(dropdown.value);
-    }
-});
 </script>
 
-   <script src="https://cdn.jsdelivr.net/npm/justgage@1.3.0/justgage.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+ <!-- Guage  Script -->
 <script>
     function createGauge(id, title, color, valueElement) {
         return new JustGage({
@@ -252,203 +253,213 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 
-
+ <!-- BarChart Script -->
 <script>
-var userId = "{{ user.id }}"; 
-let barChart;
+    document.addEventListener("DOMContentLoaded", function () {
+        var userId = "{{ user.id }}"; // Ensure userId is globally available
+        let barChart; // Separate variable for the bar chart
 
-function updateBarChart(projectId) {
-    fetch(`/billings_demo/${userId}/?project_id=${projectId}`, { 
-        headers: { "X-Requested-With": "XMLHttpRequest" } 
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("📊 Received Bar Chart Data:", data); // Debugging
+        function updateBarChart(taskCounts) {
+            console.log("Updating Bar Chart with:", taskCounts); // Debugging
 
-        if (data.task_counts) {
-            renderBarChart(data.task_counts);
-        } else {
-            console.error("❌ No task_counts received!");
-        }
-    })
-    .catch(error => console.error("❌ Error fetching Bar Chart data:", error));
-}
-
-function renderBarChart(taskCounts) {
-    console.log("📊 Updating Bar Chart with:", taskCounts); // Debugging
-
-    const ctxBar = document.getElementById('barChart').getContext('2d');
-
-    if (!ctxBar) {
-        console.error("❌ Canvas not found!");
-        return;
-    }
-
-    // Define labels and values
-    const labels = [ "Completed", "In Progress", "Pending"];
-    const values = [
-        
-        taskCounts.completed || 0,
-        taskCounts.in_progress || 0,
-        taskCounts.pending || 0
-    ];
-    const backgroundColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A8', '#FF8C33', '#6A33FF'];
-
-    // Destroy previous chart before creating a new one
-    if (barChart) {
-        barChart.destroy();
-    }
-
-    barChart = new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Task Distribution',
-                data: values,
-                backgroundColor: backgroundColors,
-                borderColor: backgroundColors,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    grid: { display: true, color: 'rgba(0, 0, 0, 0.1)' },
-                    ticks: { font: { size: 10 } }
-                },
-                y: {
-                    grid: { display: true, color: 'rgba(0, 0, 0, 0.1)' },
-                    ticks: { beginAtZero: true, stepSize: 1 }
-                }
-            },
-            barPercentage: 0.5,
-            categoryPercentage: 0.7,
-            plugins: {
-                legend: { display: false }
+            const barCanvas = document.getElementById('barChart');
+            if (!barCanvas) {
+                console.error("❌ Bar Chart canvas not found!");
+                return;
             }
+
+            const ctx = barCanvas.getContext('2d');
+            if (!ctx) {
+                console.error("❌ Failed to get 2D context for barChart!");
+                return;
+            }
+
+            if (barChart) {
+                barChart.destroy(); // Destroy previous instance before creating a new one
+            }
+
+            // Define task categories and corresponding colors
+            const taskLabels = ["High Priority", "Medium Priority", "Low Priority", "Completed", "In Progress", "Pending"];
+            const taskData = [
+                taskCounts.high_priority || 0,
+                taskCounts.medium_priority || 0,
+                taskCounts.low_priority || 0,
+                taskCounts.completed || 0,
+                taskCounts.in_progress || 0,
+                taskCounts.pending || 0
+            ];
+            const taskColors = ["#e63946", "#f4a261", "#2a9d8f", "#264653", "#1d3557", "#457b9d"];
+
+            // Create new bar chart
+            barChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: taskLabels,
+                    datasets: [{
+                        label: "Task Counts",
+                        data: taskData,
+                        backgroundColor: taskColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            console.log("✅ Bar Chart Updated!");
         }
+
+        // ✅ Fetch data and update the bar chart
+        function fetchAndUpdateBarChart(projectId) {
+            fetch(`/billings_demo/${userId}/?project_id=${projectId}`, { 
+                headers: { "X-Requested-With": "XMLHttpRequest" } 
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.task_counts) {
+                    updateBarChart(data.task_counts);
+                } else {
+                    console.error("No task count data received!");
+                }
+            })
+            .catch(error => console.error("Error fetching task count data:", error));
+        }
+
+        // 🟢 Event Listener for Project Dropdown
+        document.getElementById("projectDropdown").addEventListener("change", function () {
+            const projectId = this.value;
+            if (projectId) {
+                fetchAndUpdateBarChart(projectId);
+            }
+        });
+
+        // ✅ Load Initial Data on Page Load
+        setTimeout(() => {
+            let firstProject = document.getElementById("projectDropdown")?.value;
+            if (firstProject) {
+                fetchAndUpdateBarChart(firstProject); // Load bar chart on dashboard page load
+            } else {
+                console.warn("⚠️ No project found in dropdown.");
+            }
+        }, 50); // Delay to ensure DOM is fully loaded
     });
 
-    console.log("✅ Bar Chart Updated!"); // Debugging
-}
-
-// Listen for project dropdown changes
-document.getElementById("projectDropdown").addEventListener("change", function () {
-    updateBarChart(this.value);
-});
-
-// Load Bar Chart when page refreshes
-window.onload = function() {
-    let firstProject = document.getElementById("projectDropdown").value;
-    if (firstProject) {
-        updateBarChart(firstProject);
-    }
-};
 </script>
 
 
 
-
+ <!-- DonutChart Script -->
 <script>
-var userId = "{{ user.id }}";
-let donutChart;
+document.addEventListener("DOMContentLoaded", function () {
+    var userId = "{{ user.id }}";
+    let donutChart; // Store chart instance globally
 
-function updateDashboard(projectId) {
-    fetch(`/billings_demo/${userId}/?project_id=${projectId}`, { 
-        headers: { "X-Requested-With": "XMLHttpRequest" } 
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Received Data:", data); // Debugging - Check console
+    function updateDashboard(projectId) {
+        fetch(`/dashboard/${userId}/?project_id=${projectId}`, { 
+            headers: { "X-Requested-With": "XMLHttpRequest" } 
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Received Data:", data); // Debugging
 
-        document.getElementById("projectName").innerText = data.name;
-        document.getElementById("budgetUtilization").innerText = data.budget_utilization + "%";
-        document.getElementById("schedulePerformance").innerText = data.schedule_performance;
-        document.getElementById("costPerformance").innerText = data.cost_performance;
+            if (!data || Object.keys(data).length === 0) {
+                console.error("No valid data received!");
+                return;
+            }
 
-        if (data.resources) {
-            updateDonutChart(data.resources);
-            updateResourceTable(data.resources);
-        } else {
-            console.error("No resource data received!");
+            document.getElementById("projectName").innerText = data.name;
+            document.getElementById("budgetUtilization").innerText = data.budget_utilization + "%";
+            document.getElementById("schedulePerformance").innerText = data.schedule_performance;
+            document.getElementById("costPerformance").innerText = data.cost_performance;
+
+            if (data.resources && data.resources.labels.length > 0) {
+                updateDonutChart(data.resources);
+                updateResourceTable(data.resources);
+            } else {
+                console.error("No resource data available!");
+            }
+        })
+        .catch(error => console.error("Error fetching data:", error));
+    }
+
+    function updateDonutChart(resourceData) {
+        console.log("Resource Data for Chart:", resourceData); // Debugging
+
+        const ctx = document.getElementById('donutChart')?.getContext('2d');
+
+        if (!ctx) {
+            console.error("Canvas element #donutChart not found!");
+            return;
         }
-    })
-    .catch(error => console.error("Error fetching data:", error));
-}
 
-function updateDonutChart(resourceData) {
-    console.log("Resource Data for Chart:", resourceData); // Debugging
+        // Destroy previous chart before creating a new one
+        if (donutChart) {
+            donutChart.destroy();
+        }
 
-    const ctx = document.getElementById('donutChart').getContext('2d');
-
-    if (!ctx) {
-        console.error("Canvas not found!");
-        return;
-    }
-
-    if (donutChart) {
-        donutChart.destroy(); // Destroy previous chart before re-creating
-    }
-
-    donutChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: resourceData.labels,
-            datasets: [{
-                data: resourceData.costs,
-                backgroundColor: resourceData.colors, // Use dynamically generated colors
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '65%',
-            plugins: {
-                legend: {
-                    display: false // Hide default legend to show it in table
+        donutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: resourceData.labels,
+                datasets: [{
+                    data: resourceData.costs,
+                    backgroundColor: resourceData.colors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 }
             }
-        }
+        });
+
+        console.log("Chart Updated Successfully!");
+    }
+
+    function updateResourceTable(resourceData) {
+        const tableBody = document.querySelector("#resourceTable tbody");
+        tableBody.innerHTML = ""; // Clear previous rows
+
+        resourceData.labels.forEach((label, index) => {
+            let row = `<tr>
+                <td style="background-color: ${resourceData.colors[index]}; width: 20px;"></td>
+                <td>${label}</td>
+                <td>$${resourceData.costs[index].toLocaleString()}</td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
+
+        console.log("Table Updated Successfully!");
+    }
+
+    // Ensure project dropdown updates dashboard
+    document.getElementById("projectDropdown").addEventListener("change", function () {
+        updateDashboard(this.value);
     });
 
-    console.log("Chart Updated!"); // Debugging
-}
-
-function updateResourceTable(resourceData) {
-    const tableBody = document.querySelector("#resourceTable tbody");
-    tableBody.innerHTML = ""; // Clear existing table rows
-
-    resourceData.labels.forEach((label, index) => {
-        let row = `<tr>
-            <td style="background-color: ${resourceData.colors[index]}; width: 20px;"></td>
-            <td>${label}</td>
-            <td>$${resourceData.costs[index].toLocaleString()}</td>
-        </tr>`;
-        tableBody.innerHTML += row;
-    });
-
-    console.log("Table Updated!"); // Debugging
-}
-
-document.getElementById("projectDropdown").addEventListener("change", function () {
-    updateDashboard(this.value);
-});
-
-window.onload = function() {
+    // Run on page load to initialize first project
     let firstProject = document.getElementById("projectDropdown").value;
     if (firstProject) {
         updateDashboard(firstProject);
     }
-};
+});
 
  </script>
 
-
-
+ <!-- PieChart Script -->
 <script>
     let taskPieChart = null;
     var userId = "{{ user.id }}";  
@@ -567,115 +578,84 @@ window.onload = function() {
 </script>
 
 
+ <!-- LineChart Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch(`/budget_utilization/${userId}/`)  // Call your Django view
+            .then(response => response.json())
+            .then(data => {
+                console.log("Budget Data:", data); // Debugging
 
+                const budgetData = data.budget_data;
+                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                
+                const datasets = []; // Store project data for chart
+                
+                // Assign colors for each project dynamically
+                const colors = ["#ff6384", "#36a2eb", "#ffce56", "#2a9d8f", "#e63946", "#f4a261"];
 
+                let colorIndex = 0;
+                for (let projectName in budgetData) {
+                    const monthlyData = budgetData[projectName];
 
+                    // Create an array with total cost per month (fill missing months with 0)
+                    const costArray = months.map((_, index) => monthlyData[index + 1] || 0);
 
-    <script>
-        // Get the line chart canvas
-        const ctxLine = document.getElementById('lineChart').getContext('2d');
+                    datasets.push({
+                        label: projectName,
+                        data: costArray,
+                        borderColor: colors[colorIndex % colors.length], // Cycle colors
+                        backgroundColor: "transparent",
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointBackgroundColor: colors[colorIndex % colors.length],
+                        pointRadius: 4
+                    });
 
-        // Define X-axis labels (time progression)
-        const timePeriods = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-
-        // Define Data for Multiple Projects
-        const lineChartData = {
-            labels: timePeriods,
-            datasets: [
-                {
-                    label: 'Project A',
-                    data: [10, 25, 40, 55, 70, 90], // Progress over months
-                    borderColor: '#ff6384',
-                    backgroundColor: 'transparent',  // No background (line chart)
-                    borderWidth: 2,                  // Line thickness
-                    tension: 0.3,                    // Smoother lines
-                    pointBackgroundColor: '#ff6384', // Points color
-                    pointRadius: 4                   // Point size
-                },
-                {
-                    label: 'Project B',
-                    data: [5, 15, 35, 50, 65, 80],
-                    borderColor: '#36a2eb',
-                    backgroundColor: 'transparent',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    pointBackgroundColor: '#36a2eb',
-                    pointRadius: 4
-                },
-                {
-                    label: 'Project C',
-                    data: [8, 20, 38, 55, 72, 95],
-                    borderColor: '#ffce56',
-                    backgroundColor: 'transparent',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    pointBackgroundColor: '#ffce56',
-                    pointRadius: 4
+                    colorIndex++;
                 }
-            ]
-        };
 
-        // Create the Line Chart
-        new Chart(ctxLine, {
-            type: 'line',
-            data: lineChartData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
+                // Create the Line Chart
+                const ctxLine = document.getElementById("lineChart").getContext("2d");
+                new Chart(ctxLine, {
+                    type: "line",
+                    data: {
+                        labels: months,
+                        datasets: datasets
                     },
-                    tooltip: {
-                        enabled: true,
-                        mode: 'index'
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Time Period'
-                        },
-                        grid: {
-                            drawBorder: true,  // Draw the border of the chart area
-                            drawOnChartArea: true, // Display grid lines on chart area
-                            color: 'rgba(0, 0, 0, 0.1)', // Grid line color
-                            lineWidth: 1, // Grid line width
-                        },
-                        ticks: {
-                            color: 'black', // Ticks color (axis labels)
-                            font: {
-                                size: 12
-                            }
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Progress (%)'
-                        },
-                        grid: {
-                            drawBorder: true,  // Draw the border of the chart area
-                            drawOnChartArea: true, // Display grid lines on chart area
-                            color: 'rgba(0, 0, 0, 0.1)', // Grid line color
-                            lineWidth: 1, // Grid line width
-                        },
-                        ticks: {
-                            callback: function(value) {
-                                return value + "%"; // Adds % symbol to values
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: "top"
                             },
-                            color: 'black', // Ticks color (axis labels)
-                            font: {
-                                size: 12
+                            tooltip: {
+                                enabled: true,
+                                mode: "index"
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: "Months"
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Total Cost ($)"
+                                }
                             }
                         }
                     }
-                }
-            }
-        });
-    </script>
+                });
+            })
+            .catch(error => console.error("Error fetching budget utilization:", error));
+    });
+</script>
 </body>
 </html>
