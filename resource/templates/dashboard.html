@@ -6,10 +6,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  <title>
-    FastPro
-  </title>
+  <link rel="icon" type="image/x-icon" href="{% static 'imG/FPLOGO.png' %}">
+    <title>FastPro</title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
   <!-- Nucleo Icons -->
@@ -220,140 +218,133 @@
 
 
     <!--Main Page-->
-      <div class="container-fluid py-2">
-        <div class="row">
-          <div class="ms-3">
+     <div class="container-fluid py-2">
+    <div class="row">
+        <div class="ms-3">
             <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
-            <p class="mb-4">
-              Check Resources, value and bounce rate by Projects.
-            </p>
-          </div>
+            <p class="mb-4">Check Resources, value, and bounce rate by Projects.</p>
+        </div>
 
-         <div class="row gx-1">
-            <!-- First Column -->
-           <div class="col-lg-4">
-                <div class="row gx-1">
-                    <!-- Left Side: Project Selection, Status, Estimated Cost -->
-                    <div class="col-6 gy-0">
-                        <div class="card p-2 mb-2 shadow">
-                            <label style="font-size: 14px;"><strong>Project Name</strong></label>
-                            <select id="projectDropdown" class="form-select" style="font-size: 14px;">
-                                {% for project in projects %}
-                                    <option value="{{ project.id }}">{{ project.name }}</option>
-                                {% endfor %}
-                            </select>
+        {% if projects %}
+            <div class="row gx-1">
+                <!-- First Column -->
+                <div class="col-lg-4">
+                    <div class="row gx-1">
+                        <div class="col-6 gy-0">
+                            <div class="card p-2 mb-2 shadow">
+                                <label style="font-size: 14px;"><strong>Project Name</strong></label>
+                                <select id="projectDropdown" class="form-select" style="font-size: 14px;">
+                                    {% for project in projects %}
+                                        <option value="{{ project.id }}">{{ project.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="card p-2 mb-2 shadow gy-0">
+                                <label style="font-size: 14px;"><strong>Project Status</strong></label>
+                                <input id="projectStatus" type="text" class="form-control" style="font-size: 14px;" readonly>
+                            </div>
+                            <div class="card p-2 mb-2 shadow text-center text-secondary" style="height: 75px;">
+                                <h6 style="margin-bottom: 15px;">Estimated Cost</h6>
+                                <p id="estimatedCost" style="font-size: 18px;"></p>
+                            </div>
                         </div>
-                        <div class="card p-2 mb-2 shadow gy-0">
-                            <label style="font-size: 14px;"><strong>Project Status</strong></label>
-                            <input id="projectStatus" type="text" class="form-control" style="font-size: 14px;" readonly>
-                        </div>
-                        <div class="card p-2 mb-2 shadow text-center text-secondary" style="height: 75px;">
-                            <h6 style=" margin-bottom: 15px;">Estimated Cost</h6>
-                            <p id="estimatedCost" style="font-size: 18px;"></p>
-                        </div>
-                    </div>
 
-                    <!-- Right Side: Project Details & Budget Utilization -->
-                    <div class="col-6 gy-0">
-                        <div class="d-flex flex-column gap-2">
-                            <!-- Project Details (Scrollable) -->
-                            <div class="card p-2 shadow flex-fill" style="height: 125px; overflow-y: auto;">
-                                <p style="font-size: 13px; margin-bottom: 20px;"><strong>Project Name:</strong><span id="projectName"></span></p>
-                                <p style="font-size: 13px; margin-bottom: 20px;">Project</p>
-                                <p style="font-size: 12px; margin-bottom: 20px;"><strong>Project Start Date:</strong> <span id="startDate"></span></p>
-                                <p style="font-size: 12px; margin-bottom: 20px;"><strong> Project End Date:</strong> <span id="endDate"></span></p>
-                            </div>                            
-                            <!-- Budget Utilization (Same Height) -->
-                            <div class="card p-3 shadow flex-fill text-center text-secondary" style="height: 125px;">
-                            <h6>Budget Utilization</h6>
-                            <h2 id="budgetUtilization"></h2>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Speedometer Charts -->
-                <div class="row gy-0 mt-0">
-                    <div class="col-12">
-                        <div class="card p-2 shadow">
-                            <div class="d-flex justify-content-between">
-                                <!-- Schedule Performance Gauge -->
-                                <div class="gauge-container" style="width: 40%; position: relative;">
-                                    <h2 style="font-size: 16px;">Schedule Performance</h2>
-                                    <div id="schedule-gauge" class="my-2"></div> <!-- Gauge Chart Placeholder -->
-                                    <p style="text-align: center; font-size: 1em; ">
-                                        Current Value: <span id="schedulePerformance">0</span>
-                                    </p>
+                        <div class="col-6 gy-0">
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card p-2 shadow flex-fill" style="height: 125px; overflow-y: auto;">
+                                    <p style="font-size: 13px;"><strong>Project Name:</strong> <span id="projectName"></span></p>
+                                    <p style="font-size: 13px;">Project</p>
+                                    <p style="font-size: 12px;"><strong>Start Date:</strong> <span id="startDate"></span></p>
+                                    <p style="font-size: 12px;"><strong>End Date:</strong> <span id="endDate"></span></p>
                                 </div>
+                                <div class="card p-3 shadow flex-fill text-center text-secondary" style="height: 125px;">
+                                    <h6>Budget Utilization</h6>
+                                    <h2 id="budgetUtilization"></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                <!-- Cost Performance Gauge -->
-                                <div class="gauge-container" style="width: 40%; position: relative;">
-                                    <h2 style="font-size: 18px;">Cost Performance</h2>
-                                    <div id="cost-gauge" class="my-2"></div> <!-- Gauge Chart Placeholder -->
-                                    <p style="text-align: center; font-size: 1em;">
-                                        Current Value: <span id="costPerformance">0</span>
-                                    </p>
+                    <div class="row gy-0 mt-0">
+                        <div class="col-12">
+                            <div class="card p-2 shadow">
+                                <div class="d-flex justify-content-between">
+                                    <div class="gauge-container" style="width: 40%;">
+                                        <h2 style="font-size: 16px;">Schedule Performance</h2>
+                                        <div id="schedule-gauge" class="my-2"></div>
+                                        <p style="text-align: center; font-size: 1em;">Current Value: <span id="schedulePerformance">0</span></p>
+                                    </div>
+                                    <div class="gauge-container" style="width: 40%;">
+                                        <h2 style="font-size: 18px;">Cost Performance</h2>
+                                        <div id="cost-gauge" class="my-2"></div>
+                                        <p style="text-align: center; font-size: 1em;">Current Value: <span id="costPerformance">0</span></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Second Column -->
+                <div class="col-lg-4 gx-1">
+                    <div class="card p-3">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                    <div class="card p-2 gy-0 mt-2">
+                        <div style="max-height: 230px; overflow-y: auto;">
+                            <table id="resourceTable" class="table">
+                                <thead>
+                                    <tr style="font-size: 12px;">
+                                        <th>Color</th>
+                                        <th>Resource</th>
+                                        <th>Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 12px;">
+                                    <!-- Rows will be dynamically added here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Third Column -->
+                <div class="col-lg-4">
+                    <div class="row g-1">
+                        <div class="col-6">
+                            <div class="card p-2 shadow d-flex flex-column align-items-center" style="height: 250px;">
+                                <canvas id="taskPieChart" style="max-width: 100%; height: 150px;"></canvas>
+                                <div id="taskPieLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card p-2 shadow d-flex flex-column align-items-center" style="height: 250px;">
+                                <canvas id="barChart" style="max-width: 100%; height: 150px;"></canvas>
+                                <div id="barLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-1 mt-2">
+                        <div class="col-12">
+                            <div class="card p-2 shadow" style="height: 250px;">
+                                <canvas id="lineChart" style="max-width: 100%; height: 150px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <!-- Second Column -->
-            <div class="col-lg-4 gx-1">
-                <div class="card p-3">
-                    <canvas id="donutChart"></canvas>
-                </div>
-                <div class="card p-2 gy-0 mt-2">
-                    <div style="max-height: 230px; overflow-y: auto;">
-                        <table id="resourceTable" class="table">
-                            <thead>
-                                <tr style="font-size: 12px;">
-                                    <th>Color</th>
-                                    <th>Resource</th>
-                                    <th>Cost</th>
-                                </tr>
-                            </thead>
-                            <tbody style="font-size: 12px;">
-                                <!-- Rows will be dynamically added here -->
-                            </tbody>
-                        </table>
-                    </div>
+        {% else %}
+            <div class="col-12 text-center">
+                <div class="alert alert-warning mt-4 p-4">
+                    <h5>No projects available</h5>
+                    <p>Please add projects to view dashboard insights.</p>
                 </div>
             </div>
-            
-            <!-- Third Column -->
-            <div class="col-lg-4">
-                <div class="row g-1"> <!-- Use g-1 to reduce the gap between columns -->
-                    <!-- Pie Chart Container -->
-                    <div class="col-6">
-                        <div class="card p-2 shadow d-flex flex-column align-items-center" style="height: 250px; overflow: hidden;">
-                            <canvas id="taskPieChart" style="max-width: 100%; height: 150px;"></canvas>
-                            <div id="taskPieLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
-                        </div>
-                    </div>
+        {% endif %}
+    </div>
+</div>
 
-                    <!-- Bar Chart Container -->
-                    <div class="col-6">
-                        <div class="card p-2 shadow d-flex flex-column align-items-center" style="height: 250px; overflow: hidden;">
-                            <canvas id="barChart" style="max-width: 100%; height: 150px;"></canvas>
-                            <div id="barLegend" class="d-flex flex-wrap justify-content-center mt-2" style="max-height: 50px; overflow-y: auto;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-1 mt-2"> <!-- Adjust margin-top for spacing between rows -->
-                    <!-- Line Chart Container -->
-                    <div class="col-12">
-                        <div class="card p-2 shadow" style="height: 250px;">
-                            <canvas id="lineChart" style="max-width: 100%; height: 150px;"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>            
-           </div>          
-      </div>
       
     
       

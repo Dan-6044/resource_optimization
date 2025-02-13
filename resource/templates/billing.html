@@ -6,10 +6,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  <title>
-    FastPro
-  </title>
+  <link rel="icon" type="image/x-icon" href="{% static 'imG/FPLOGO.png' %}">
+    <title>FastPro</title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
   <!-- Nucleo Icons -->
@@ -399,9 +397,9 @@
           <div class="card">
               <div class="card-header pb-0 p-3">
                   <div class="row">
-                      <div class="col-md-6">
-                          <h6 class="mb-0">Billing Information</h6>
-                      </div>
+                        <div class="col-md-6">
+                            <h6 class="mb-0">Billing Information</h6>
+                        </div>
                       <div class="col-md-6 text-end">
                           <!-- Add Billing Info Button -->
                           <button class="btn bg-gradient-dark mb-0" data-bs-toggle="modal" data-bs-target="#addBillingModal">
@@ -410,6 +408,17 @@
                       </div>
                   </div>
               </div>
+              <!-- Message Alerts -->
+            {% if messages %}
+                <div class="p-3">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
               <div class="card-body pt-4 p-3">
                   <ul class="list-group">
                       {% if user.billing_info %}

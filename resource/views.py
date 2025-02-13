@@ -525,18 +525,26 @@ def create_invoice(request):
 
 
 ###########BILLING INFO###################
-# creating billing info
 @login_required
 def add_billing_info(request):
     if request.method == 'POST':
-        BillingInfo.objects.create(
-            user=request.user,
-            owner_name=request.POST.get('owner_name'),
-            company_name=request.POST.get('company_name'),
-            email=request.POST.get('email'),
-            vat_number=request.POST.get('vat_number'),
-        )
-        referer = request.META.get('HTTP_REFERER', '/')   # Redirect to the page showing the billing info
+        user = request.user
+
+        # Check if billing info already exists
+        if BillingInfo.objects.filter(user=user).exists():
+            messages.error(request, "Billing info already exists.")
+        else:
+            # Create new billing info
+            BillingInfo.objects.create(
+                user=user,
+                owner_name=request.POST.get('owner_name'),
+                company_name=request.POST.get('company_name'),
+                email=request.POST.get('email'),
+                vat_number=request.POST.get('vat_number'),
+            )
+            messages.success(request, "Billing info added successfully.")
+
+        referer = request.META.get('HTTP_REFERER', '/')  # Redirect to the referring page
         return redirect(referer)
 
     return render(request, 'billing.html')
